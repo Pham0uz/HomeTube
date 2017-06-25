@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Common
 {
-    public sealed class YoutubeVideo
+    public sealed class YouTubeVideo
     {
         public string Id { get; set; }
         public string Title { get; set; }
