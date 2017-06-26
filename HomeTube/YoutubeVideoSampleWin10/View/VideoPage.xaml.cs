@@ -59,7 +59,7 @@ namespace HomeTube.View
                     if (video != null && !video.Id.Equals(String.Empty))
                     {
                         //Get The Video Uri and set it as a player source
-                        var url = await YouTube.GetVideoUriAsync(video.Id, YouTubeQuality.Quality480P);
+                        var url = await YouTube.GetVideoUriAsync(video.Id, YouTubeQuality.Quality2160P);
                         player.Source = url.Uri;
                     }
 

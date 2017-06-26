@@ -43,6 +43,9 @@ namespace HomeTube.View
                     //The number of videos you would like to get in one request(from 1 to 50)
                     int max_results = 50;
 
+                    SearchItems.Visibility = Visibility.Collapsed;
+                    SearchProgress.Visibility = Visibility.Collapsed;
+
                     ////Channel Videos
                     ChannelVideos.Visibility = Visibility.Collapsed;
                     ChannelProgress.Visibility = Visibility.Visible;
@@ -253,21 +256,15 @@ namespace HomeTube.View
 
                 txtAutoSuggestBox.Text = sender.Text;
 
-            SearchItems.Visibility = Visibility.Collapsed;
-            SearchProgress.Visibility = Visibility.Visible;
-
             var searchItems = await ListItems(txtAutoSuggestBox.Text, 50);
             SearchItems.ItemsSource = searchItems;
 
             SearchItems.Visibility = Visibility.Visible;
             SearchProgress.Visibility = Visibility.Collapsed;
-
         }
 
         private void AutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
-
         {
-
             txtAutoSuggestBox.Text = "Choosen";
 
         }
@@ -315,6 +312,8 @@ namespace HomeTube.View
         //Get Channel Videos
         public async Task<List<YoutubeVideo>> ListItems(string searchQuery, int maxResults)
         {
+            SearchProgress.Visibility = Visibility.Visible;
+
             var searchItemsListRequest = youtubeService.Search.List("snippet");
             searchItemsListRequest.Q = searchQuery;
             //searchItemsListRequest.Type = "video";
