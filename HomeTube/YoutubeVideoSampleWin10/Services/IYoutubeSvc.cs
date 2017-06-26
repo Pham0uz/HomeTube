@@ -7,8 +7,10 @@ namespace HomeTube.Services
 {
     public interface IYouTubeSvc
     {
-        //YouTube Service Auth
+        /*
+        //YouTube Service Auth -- not compatible with UWP
         YouTubeService Auth();
+        */
 
         //Get Channel Videos
         Task<List<YoutubeVideo>> GetChannelVideos(string channelId, int maxResults);

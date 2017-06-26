@@ -18,11 +18,16 @@ namespace HomeTube.Services
 
         public YouTubeSvc()
         {
-            //Youtub Data API Credentials
-            youtubeService = Auth();
+            //Youtub Data API Credentials -- workaround because method above doesn't work yet
+            youtubeService = new YouTubeService(new BaseClientService.Initializer()
+            {
+                ApiKey = "AIzaSyDaeHjO9QK38vHvHHkvPVbrmx0iAi8M0cc",
+                ApplicationName = "HomeTube"
+            });
         }
 
-        // YouTubeService Auth
+        /*
+        // YouTubeService Auth -- Google.Apis. currently not supporting UWP
         public YouTubeService Auth()
         {
             UserCredential creds;
@@ -33,7 +38,7 @@ namespace HomeTube.Services
                     new[] { YouTubeService.Scope.YoutubeReadonly },
                     "user",
                     CancellationToken.None,
-                    new FileDataStore("HomeTube")
+                    new Google.Apis.Util.Store.FileDataStore("HomeTube")
                     ).Result;
             }
 
@@ -45,6 +50,7 @@ namespace HomeTube.Services
 
             return service;
         }
+        */
 
         //Get Channel Videos
         public async Task<List<YoutubeVideo>> GetChannelVideos(string channelId, int maxResults)
@@ -200,7 +206,7 @@ namespace HomeTube.Services
             var searchItemsListRequest = youtubeService.Search.List("snippet");
             searchItemsListRequest.Q = searchQuery;
             //searchItemsListRequest.Type = "video";
-            searchItemsListRequest.Order = Google.Apis.YouTube.v3.SearchResource.ListRequest.OrderEnum.Date;
+            //searchItemsListRequest.Order = Google.Apis.YouTube.v3.SearchResource.ListRequest.OrderEnum.Relevance;
             searchItemsListRequest.MaxResults = maxResults;
             searchItemsListRequest.PageToken = "";
 
