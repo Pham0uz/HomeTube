@@ -24,11 +24,28 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" ScrollViewer.VerticalScrollBarVisibility="Disabled">
         <!-- Page title -->
         <Pivot Margin="0" Title="HomeTube" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+            <PivotItem Header="Search Videos" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                <ScrollViewer>
+                    <StackPanel ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                        <!-- Search Videos-->
+                        <AutoSuggestBox x:Name="txtAutoSuggestBox" TextChanged="AutoSuggestBox_TextChanged" QuerySubmitted="AutoSuggestBox_QuerySubmitted" SuggestionChosen="AutoSuggestBox_SuggestionChosen" QueryIcon="Find" PlaceholderText="Search" VerticalAlignment="Top" HorizontalAlignment="Left" Width="300"/>
+                        <GridView x:Name="SearchItems" ItemClick="Videos_ItemClick" SelectionMode="None" IsItemClickEnabled="True" Grid.Row="1" Grid.Column="0" ItemTemplate="{StaticResource VideoDataTemplate}" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                            <GridView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapGrid MaximumRowsOrColumns="3" Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </GridView.ItemsPanel>
+                        </GridView>
+                        <ProgressRing x:Name="SearchProgress" IsActive="True" Grid.Row="1" Grid.Column="0" Width="100" Height="100"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </PivotItem>
+            
             <PivotItem Header="Channel Videos" ScrollViewer.VerticalScrollBarVisibility="Disabled">
                 <ScrollViewer>
                     <StackPanel ScrollViewer.VerticalScrollBarVisibility="Disabled">
                         <!-- Channel Videos-->
-                        <GridView x:Name="ChannelVideos" ItemClick="Videos_ItemClick" SelectionMode="None" IsItemClickEnabled="True" Grid.Row="1" Grid.Column="0" ItemTemplate="{StaticResource VideoDataTemplate}" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                        <GridView x:Name="ChannelVideos" ItemClick="Videos_ItemClick" SelectionMode="None" IsItemClickEnabled="True" Grid.Row="1" Grid.Column="1" ItemTemplate="{StaticResource VideoDataTemplate}" ScrollViewer.HorizontalScrollBarVisibility="Auto">
                             <GridView.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <WrapGrid MaximumRowsOrColumns="3" Orientation="Horizontal" />
@@ -39,10 +56,11 @@
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>
+            
             <PivotItem Header="Playlist Videos" ScrollViewer.VerticalScrollBarVisibility="Disabled">
                 <StackPanel ScrollViewer.VerticalScrollBarVisibility="Disabled">
                     <!-- Playlist Videos-->
-                    <GridView x:Name="PlaylistVideos" ItemClick="Videos_ItemClick" SelectionMode="None" IsItemClickEnabled="True" Grid.Row="1" Grid.Column="1" ItemTemplate="{StaticResource VideoDataTemplate}" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                    <GridView x:Name="PlaylistVideos" ItemClick="Videos_ItemClick" SelectionMode="None" IsItemClickEnabled="True" Grid.Row="1" Grid.Column="2" ItemTemplate="{StaticResource VideoDataTemplate}" ScrollViewer.HorizontalScrollBarVisibility="Auto">
                         <GridView.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <WrapGrid MaximumRowsOrColumns="3" Orientation="Horizontal" />
