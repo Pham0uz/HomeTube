@@ -17,11 +17,11 @@ namespace HomeTube.View
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private IYoutubeSvc m_youtubeService;
+        private IYouTubeSvc m_youtubeService;
         public MainPage()
         {
             this.InitializeComponent();
-            m_youtubeService = new YoutubeSvc();
+            m_youtubeService = new YouTubeSvc();
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)

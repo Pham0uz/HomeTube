@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HomeTube.Model;
-using Google.Apis.Util.Store;
 using Google.Apis.YouTube.v3;
 using Google.Apis.Services;
 using Google.Apis.Auth.OAuth2;
+using Google.Apis.Util.Store;
 using System.IO;
 using System.Threading;
 
 namespace HomeTube.Services
 {
-    public class YoutubeSvc : IYoutubeSvc
+    public class YouTubeSvc : IYouTubeSvc
     {
         private YouTubeService youtubeService;
 
@@ -23,7 +23,7 @@ namespace HomeTube.Services
         }
 
         // YouTubeService Auth
-        private static YouTubeService Auth()
+        public YouTubeService Auth()
         {
             UserCredential creds;
             using (var stream = new FileStream("youtube_client_secret.json", FileMode.Open, FileAccess.Read))
@@ -33,7 +33,7 @@ namespace HomeTube.Services
                     new[] { YouTubeService.Scope.YoutubeReadonly },
                     "user",
                     CancellationToken.None,
-                    new FileDataStore("HomeTube")
+                    new Google.Apis.Util.Store.FileDataStore("HomeTube")
                     ).Result;
             }
 

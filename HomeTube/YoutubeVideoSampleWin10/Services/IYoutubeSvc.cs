@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace HomeTube.Services
 {
-    public interface IYoutubeSvc
+    public interface IYouTubeSvc
     {
         //YouTube Service Auth
-        private static YouTubeService Auth();
+        YouTubeService Auth();
 
         //Get Channel Videos
         Task<List<YoutubeVideo>> GetChannelVideos(string channelId, int maxResults);
