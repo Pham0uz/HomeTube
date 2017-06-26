@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Common
+namespace YoutubeVideoSampleWin10.Model
 {
-    class YouTubeVideo
+    public class YoutubeVideo
     {
         public string Id { get; set; }
         public string Title { get; set; }
@@ -15,3 +13,4 @@ namespace Common
         public string Description { get; set; }
     }
 }
+

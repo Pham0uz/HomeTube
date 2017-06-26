@@ -1,6 +1,9 @@
 ﻿{
   "dependencies": {
-    "System.Runtime": "4.3.0"
+    "Google.Apis.YouTube.v3": "1.9.2.1470",
+    "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0",
+    "MyToolkit": "2.4.2",
+    "MyToolkit.Extended": "2.4.2"
   },
   "frameworks": {
     "uap10.0": {}
