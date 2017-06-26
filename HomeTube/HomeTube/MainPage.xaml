@@ -7,7 +7,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="0">
+        <MediaElement x:Name="player" Width="1280" Height="800"/>
+        <Button x:Name="button" Content="Start" HorizontalAlignment="Left" Margin="800,600,0,0" Grid.Row="1" VerticalAlignment="Top" Click="button_Click" Grid.ColumnSpan="2"/>
     </Grid>
 </Page>
