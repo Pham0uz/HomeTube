@@ -128,7 +128,7 @@ namespace YoutubeVideoSpace
         }
 
         // Search Run
-        private async Task SearchFor(string searchQuery)
+        public async Task SearchFor(string searchQuery)
         {
 
             var searchListRequest = youtubeService.Search.List("snippet");

@@ -1,8 +1,5 @@
 ﻿using HomeTube.Model;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace YoutubeVideoSpace
@@ -13,15 +10,20 @@ namespace YoutubeVideoSpace
         //Get Channel Videos
         Task<List<YoutubeVideo>> GetChannelVideos(string channelId, int maxResults);
 
+        //Get Channel Videos With Pagination
         Task<List<YoutubeVideo>> GetChannelVideosWithPagination(string channelId, int maxResults);
 
+        //Get Playlist Videos
         Task<List<YoutubeVideo>> GetPlaylistVideos(string playlistId, int maxResults);
 
+        //Get Cannel Id
         Task<string> GetChannelId(string userName);
 
+        // Search Run
+        Task SearchFor(string searchQuery);
+
+        //Get Channel Videos
         Task<List<YoutubeVideo>> ListItems(string searchQuery, int maxResults);
-
-
 
     }
 }
