@@ -6,7 +6,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using HomeTube.Model;
 using System.Collections.ObjectModel;
-using YoutubeVideoSpace;
+using HomeTube.Services;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -17,11 +17,11 @@ namespace HomeTube.View
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private YoutubeVideoSpace.IYoutubeVideoService m_youtubeService;
+        private IYoutubeSvc m_youtubeService;
         public MainPage()
         {
             this.InitializeComponent();
-            m_youtubeService = new YoutubeVideoService();
+            m_youtubeService = new YoutubeSvc();
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
