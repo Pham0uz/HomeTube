@@ -5,11 +5,46 @@ using System.Threading.Tasks;
 using HomeTube.Model;
 using Google.Apis.YouTube.v3;
 using Google.Apis.Services;
+using Google.Apis.Auth.OAuth2;
+using Google.Apis.Util.Store;
+using System.IO;
+using System.Threading;
 
-namespace YoutubeVideoSpace
+namespace HomeTube.Services
 {
-    public class YoutubeVideoService : IYoutubeVideoService
+    public class YouTubeSvc : IYouTubeSvc
     {
+        private YouTubeService youtubeService;
+
+        public YouTubeSvc()
+        {
+            //Youtub Data API Credentials
+            youtubeService = Auth();
+        }
+
+        // YouTubeService Auth
+        public YouTubeService Auth()
+        {
+            UserCredential creds;
+            using (var stream = new FileStream("youtube_client_secret.json", FileMode.Open, FileAccess.Read))
+            {
+                creds = GoogleWebAuthorizationBroker.AuthorizeAsync(
+                    GoogleClientSecrets.Load(stream).Secrets,
+                    new[] { YouTubeService.Scope.YoutubeReadonly },
+                    "user",
+                    CancellationToken.None,
+                    new Google.Apis.Util.Store.FileDataStore("HomeTube")
+                    ).Result;
+            }
+
+            var service = new YouTubeService(new BaseClientService.Initializer()
+            {
+                HttpClientInitializer = creds,
+                ApplicationName = "HomeTube"
+            });
+
+            return service;
+        }
 
         //Get Channel Videos
         public async Task<List<YoutubeVideo>> GetChannelVideos(string channelId, int maxResults)
@@ -40,14 +75,6 @@ namespace YoutubeVideoSpace
 
             return channelVideos;
         }
-
-        //Youtub Data API Credentials
-        YouTubeService youtubeService = new YouTubeService(
-                new BaseClientService.Initializer
-                {
-                    ApiKey = "AIzaSyDaeHjO9QK38vHvHHkvPVbrmx0iAi8M0cc",
-                    ApplicationName = "HomeTube"
-                });
 
         //Get Channel Videos With Pagination
         public async Task<List<YoutubeVideo>> GetChannelVideosWithPagination(string channelId, int maxResults)

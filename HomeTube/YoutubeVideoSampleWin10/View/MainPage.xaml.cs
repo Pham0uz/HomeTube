@@ -6,7 +6,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using HomeTube.Model;
 using System.Collections.ObjectModel;
-using YoutubeVideoSpace;
+using HomeTube.Services;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -17,11 +17,11 @@ namespace HomeTube.View
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private YoutubeVideoSpace.IYoutubeVideoService m_youtubeService;
+        private IYouTubeSvc m_youtubeService;
         public MainPage()
         {
             this.InitializeComponent();
-            m_youtubeService = new YoutubeVideoService();
+            m_youtubeService = new YouTubeSvc();
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -32,6 +32,10 @@ namespace HomeTube.View
                 {
                     //The number of videos you would like to get in one request(from 1 to 50)
                     int max_results = 50;
+
+                    ////Search Items
+                    SearchItems.Visibility = Visibility.Collapsed;
+                    SearchProgress.Visibility = Visibility.Collapsed;
 
                     ////Channel Videos
                     ChannelVideos.Visibility = Visibility.Collapsed;

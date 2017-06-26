@@ -1,11 +1,14 @@
-﻿using HomeTube.Model;
+﻿using Google.Apis.YouTube.v3;
+using HomeTube.Model;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace YoutubeVideoSpace
+namespace HomeTube.Services
 {
-    public interface IYoutubeVideoService
+    public interface IYouTubeSvc
     {
+        //YouTube Service Auth
+        YouTubeService Auth();
 
         //Get Channel Videos
         Task<List<YoutubeVideo>> GetChannelVideos(string channelId, int maxResults);
@@ -24,6 +27,5 @@ namespace YoutubeVideoSpace
 
         //Get Channel Videos
         Task<List<YoutubeVideo>> ListItems(string searchQuery, int maxResults);
-
     }
 }

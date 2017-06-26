@@ -1,5 +1,6 @@
 ﻿{
   "dependencies": {
+    "Google.Apis": "1.11.1",
     "Google.Apis.YouTube.v3": "1.9.2.1470",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0",
     "MyToolkit": "2.4.2",
