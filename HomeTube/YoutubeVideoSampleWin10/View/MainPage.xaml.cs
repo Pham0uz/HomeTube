@@ -6,6 +6,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using HomeTube.Model;
 using System.Collections.ObjectModel;
+using YoutubeVideoSpace;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -20,7 +21,7 @@ namespace HomeTube.View
         public MainPage()
         {
             this.InitializeComponent();
-            m_youtubeService = new YoutubeVideo
+            m_youtubeService = new YoutubeVideoService();
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -43,7 +44,7 @@ namespace HomeTube.View
                     //string userName = "Microsoft";
                     //string YoutubeChannel = await GetChannelId(userName);
 
-                    var channelVideos = await GetChannelVideos(YoutubeChannel, max_results);
+                    var channelVideos = await m_youtubeService.GetChannelVideos(YoutubeChannel, max_results);
                     ChannelVideos.ItemsSource = channelVideos;
 
                     ChannelVideos.Visibility = Visibility.Visible;
@@ -56,7 +57,7 @@ namespace HomeTube.View
 
                     //Here is the ID of the Playlist
                     string YoutubePlaylist = "PLFPUGjQjckXH0a_oCO0Cpt91JEVEIRRPn";
-                    var playlistVideos = await GetPlaylistVideos(YoutubePlaylist, max_results);
+                    var playlistVideos = await m_youtubeService.GetPlaylistVideos(YoutubePlaylist, max_results);
                     PlaylistVideos.ItemsSource = playlistVideos;
 
                     PlaylistVideos.Visibility = Visibility.Visible;
@@ -127,7 +128,7 @@ namespace HomeTube.View
             SearchItems.Visibility = Visibility.Collapsed;
             SearchProgress.Visibility = Visibility.Visible;
 
-            var searchItems = await ListItems(txtAutoSuggestBox.Text, 50);
+            var searchItems = await m_youtubeService.ListItems(txtAutoSuggestBox.Text, 50);
             SearchItems.ItemsSource = searchItems;
 
             SearchItems.Visibility = Visibility.Visible;
