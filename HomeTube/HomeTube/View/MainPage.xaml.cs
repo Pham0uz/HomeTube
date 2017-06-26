@@ -7,6 +7,7 @@ using Windows.UI.Xaml.Navigation;
 using HomeTube.Model;
 using System.Collections.ObjectModel;
 using HomeTube.Services;
+using HomeTube.ViewModel;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -17,12 +18,15 @@ namespace HomeTube.View
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private IYouTubeSvc m_youtubeService;
+        //private IYouTubeSvc m_youtubeService;
+        private MainPageViewModel MainVM;
         
         public MainPage()
         {
             this.InitializeComponent();
-            m_youtubeService = new YouTubeSvc();
+            //m_youtubeService = new YouTubeSvc();
+            MainVM = App.MainPageViewModel;
+            DataContext = MainVM;
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -49,8 +53,8 @@ namespace HomeTube.View
                     //string userName = "Microsoft";
                     //string YoutubeChannel = await GetChannelId(userName);
 
-                    var channelVideos = await m_youtubeService.GetChannelVideos(YoutubeChannel, max_results);
-                    ChannelVideos.ItemsSource = channelVideos;
+                    //var channelVideos = await m_youtubeService.GetChannelVideos(YoutubeChannel, max_results);
+                    //ChannelVideos.ItemsSource = channelVideos;
 
                     ChannelVideos.Visibility = Visibility.Visible;
                     ChannelProgress.Visibility = Visibility.Collapsed;
@@ -62,8 +66,8 @@ namespace HomeTube.View
 
                     //Here is the ID of the Playlist
                     string YoutubePlaylist = "PLFPUGjQjckXH0a_oCO0Cpt91JEVEIRRPn";
-                    var playlistVideos = await m_youtubeService.GetPlaylistVideos(YoutubePlaylist, max_results);
-                    PlaylistVideos.ItemsSource = playlistVideos;
+                    //var playlistVideos = await m_youtubeService.GetPlaylistVideos(YoutubePlaylist, max_results);
+                    //PlaylistVideos.ItemsSource = playlistVideos;
 
                     PlaylistVideos.Visibility = Visibility.Visible;
                     PlaylistProgress.Visibility = Visibility.Collapsed;
@@ -133,8 +137,8 @@ namespace HomeTube.View
             SearchItems.Visibility = Visibility.Collapsed;
             SearchProgress.Visibility = Visibility.Visible;
 
-            var searchItems = await m_youtubeService.ListItems(txtAutoSuggestBox.Text, 50);
-            SearchItems.ItemsSource = searchItems;
+            //var searchItems = await MainVM.m_youtubeService.ListItems(txtAutoSuggestBox.Text, 50);
+            //SearchItems.ItemsSource = searchItems;
 
             SearchItems.Visibility = Visibility.Visible;
             SearchProgress.Visibility = Visibility.Collapsed;

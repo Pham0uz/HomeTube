@@ -11,7 +11,7 @@ using Windows.Storage;
 
 namespace HomeTube.Services
 {
-    public sealed class YoutubeCommandsService
+    public sealed class YoutubeVoiceCommandService : IBackgroundTask
     {
         /// <summary>
         /// the service connection is maintained for the lifetime of a cortana session, once a voice command
@@ -75,7 +75,7 @@ namespace HomeTube.Services
             var triggerDetails = taskInstance.TriggerDetails as AppServiceTriggerDetails;
 
             // Load localized resources for strings sent to Cortana to be displayed to the user.
-            cortanaResourceMap = Windows.ApplicationModel.Resources.Core.ResourceManager.Current.MainResourceMap.GetSubtree("Resources");
+            cortanaResourceMap = ResourceManager.Current.MainResourceMap.GetSubtree("Resources");
 
             // Select the system language, which is what Cortana should be running as.
             cortanaContext = ResourceContext.GetForViewIndependentUse();
@@ -86,7 +86,7 @@ namespace HomeTube.Services
             // This should match the uap:AppService and VoiceCommandService references from the 
             // package manifest and VCD files, respectively. Make sure we've been launched by
             // a Cortana Voice Command.
-            if (triggerDetails != null && triggerDetails.Name == nameof(YoutubeCommandsService))
+            if (triggerDetails != null && triggerDetails.Name == nameof(YoutubeVoiceCommandService))
             {
                 try
                 {
@@ -106,8 +106,8 @@ namespace HomeTube.Services
                     switch (voiceCommand.CommandName)
                     {
                         case "listItems":
-                            var video = voiceCommand.Properties["searchQuery"][0];
-                            await HandleSearch(video, null);
+                            var item = voiceCommand.Properties["searchQuery"][0];
+                            await HandleSearch(item, null);
                             break;
 
                         case "searchMealBackground":
@@ -148,53 +148,53 @@ namespace HomeTube.Services
 
         private async Task HandleSearch(string searchQuery, string meal)
         {
-            var loadingText = $"Search {searchQuery}";
+            var loadingText = $"searching for {searchQuery} ...";
 
-            if (!string.IsNullOrWhiteSpace(meal))
-            {
-                loadingText = $"Suche Mittagsmenü {meal}";
-            }
+            //if (!string.IsNullOrWhiteSpace(meal))
+            //{
+            //    loadingText = $"Suche Mittagsmenü {meal}";
+            //}
 
             await ShowProgressScreen(loadingText);
 
             var service = new YouTubeSvc();
 
-            // query service to get canteens
-            var youtubeVideos = await service.ListItems(searchQuery, 50);
-
+            // query service to get items
+            var searchItems = await service.ListItems(searchQuery, 50);
 
             var userMessage = new VoiceCommandUserMessage();
             var destinationsContentTiles = new List<VoiceCommandContentTile>();
-            if (youtubeVideos.Count() == 0)
+            if (searchItems.Count() == 0)
             {
-                string foundNoCanteen = $"Es wurden leider keine Ergebnisse gefunden.";
+                string foundNoItem = $"Result of your search query is empty.";
 
-                userMessage.DisplayMessage = foundNoCanteen;
-                userMessage.SpokenMessage = foundNoCanteen;
+                userMessage.DisplayMessage = foundNoItem;
+                userMessage.SpokenMessage = foundNoItem;
             }
             else
             {
                 string message = string.Empty;
-                //foreach (var foundCanteen in youtubeVideos)
-                //{
-                //    int i = 1;
 
-                //    var destinationTile = new VoiceCommandContentTile();
+                foreach (var foundItems in searchItems)
+                {
+                    int i = 1;
 
-                //    // To handle UI scaling, Cortana automatically looks up files with FileName.scale-<n>.ext formats based on the requested filename.
-                //    // See the VoiceCommandService\Images folder for an example.
-                //    destinationTile.ContentTileType = VoiceCommandContentTileType.TitleWith68x68IconAndText;
-                //    destinationTile.Image = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///VoiceCommandService/Images/GreyTile.png"));
+                    var destinationTile = new VoiceCommandContentTile();
 
-                //    // destinationTile.AppLaunchArgument = foundCanteen.Name;
-                //    destinationTile.Title = foundCanteen.Name;
-                //    destinationTile.TextLine1 = foundCanteen.Meal;
+                    // To handle UI scaling, Cortana automatically looks up files with FileName.scale-<n>.ext formats based on the requested filename.
+                    // See the VoiceCommandService\Images folder for an example.
+                    destinationTile.ContentTileType = VoiceCommandContentTileType.TitleWith68x68IconAndText;
+                    destinationTile.Image = await StorageFile.GetFileFromApplicationUriAsync(new Uri(foundItems.Thumbnail));
 
-                //    message += $"Bei {foundCanteen.Name} gibt es {foundCanteen.Meal}.";
+                    // destinationTile.AppLaunchArgument = foundCanteen.Name;
+                    destinationTile.Title = foundItems.Title;
+                    destinationTile.TextLine1 = foundItems.Description;
 
-                //    destinationsContentTiles.Add(destinationTile);
-                //    i++;
-                //}
+                    message += $"{foundItems.Title}.";
+
+                    destinationsContentTiles.Add(destinationTile);
+                    i++;
+                }
 
                 userMessage.DisplayMessage = message;
                 userMessage.SpokenMessage = message;
@@ -212,7 +212,7 @@ namespace HomeTube.Services
         private async void LaunchAppInForeground()
         {
             var userMessage = new VoiceCommandUserMessage();
-            userMessage.SpokenMessage = cortanaResourceMap.GetValue("LaunchingAdventureWorks", cortanaContext).ValueAsString;
+            userMessage.SpokenMessage = cortanaResourceMap.GetValue("LaunchingHomeTube", cortanaContext).ValueAsString;
 
             var response = VoiceCommandResponse.CreateResponse(userMessage);
 
