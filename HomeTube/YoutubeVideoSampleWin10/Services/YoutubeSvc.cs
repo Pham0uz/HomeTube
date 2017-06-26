@@ -33,7 +33,7 @@ namespace HomeTube.Services
                     new[] { YouTubeService.Scope.YoutubeReadonly },
                     "user",
                     CancellationToken.None,
-                    new Google.Apis.Util.Store.FileDataStore("HomeTube")
+                    new FileDataStore("HomeTube")
                     ).Result;
             }
 
