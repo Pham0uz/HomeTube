@@ -33,6 +33,10 @@ namespace HomeTube.View
                     //The number of videos you would like to get in one request(from 1 to 50)
                     int max_results = 50;
 
+                    ////Search Items
+                    SearchItems.Visibility = Visibility.Collapsed;
+                    SearchProgress.Visibility = Visibility.Collapsed;
+
                     ////Channel Videos
                     ChannelVideos.Visibility = Visibility.Collapsed;
                     ChannelProgress.Visibility = Visibility.Visible;
