@@ -1,9 +1,9 @@
 ﻿using HomeTube.Model;
+using HomeTube.View;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using YoutubeVideoSpace;
 
-namespace HomeTube.View
+namespace HomeTube.Model
 {
     public class MainPageViewModel : ViewModelBase
     {

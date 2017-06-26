@@ -3,10 +3,10 @@
   <CommandSet xml:lang="en-en" Name="HomeTubeCommandSet_en-en">
     <AppName>Home tube</AppName>
     
-    <Command Name="searchVideo">      
-      <Example></Example>
-      <ListenFor RequireAppName="AfterPhrase">{videos}</ListenFor>
-      <Feedback>Looking for {videos}</Feedback>
+    <Command Name="listItems">      
+      <Example>Justin Bieber sorry.</Example>
+      <ListenFor RequireAppName="AfterPhrase">{searchQuery}</ListenFor>
+      <Feedback>{searchQuery}</Feedback>
       <Navigate Target="foo"/>
     </Command>
     

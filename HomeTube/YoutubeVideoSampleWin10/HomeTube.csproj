@@ -7,8 +7,8 @@
     <ProjectGuid>{D3A92080-E95D-4163-B814-47145FC0B3EB}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>YoutubeVideoSampleWin10</RootNamespace>
-    <AssemblyName>YoutubeVideoSampleWin10</AssemblyName>
+    <RootNamespace>HomeTube</RootNamespace>
+    <AssemblyName>HomeTube</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.10240.0</TargetPlatformVersion>
@@ -97,9 +97,11 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MainPageViewModel.cs" />
     <Compile Include="Services\IYoutubeSvc.cs" />
     <Compile Include="Model\YoutubeVideo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModelBase.cs" />
     <Compile Include="View\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -107,6 +109,7 @@
       <DependentUpon>VideoPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Services\YoutubeSvc.cs" />
+    <Compile Include="YoutubeCommandsService.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
