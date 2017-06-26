@@ -96,8 +96,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Model\IYoutubeVideoService.cs" />
-    <Compile Include="Services\YoutubeVideo.cs" />
+    <Compile Include="Services\IYoutubeVideoService.cs" />
+    <Compile Include="Model\YoutubeVideo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="View\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
