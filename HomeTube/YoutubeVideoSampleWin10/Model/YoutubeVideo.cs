@@ -1,9 +1,8 @@
-﻿
-using System;
+﻿using System;
 
 namespace HomeTube.Model
 {
-    public class YoutubeVideo
+    public sealed class YoutubeVideo
     {
         public string Id { get; set; }
         public string Title { get; set; }
