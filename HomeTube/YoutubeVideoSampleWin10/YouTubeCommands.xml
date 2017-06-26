@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<VoiceCommands xmlns="http://schemas.microsoft.com/voicecommands/1.2">
+  <CommandSet xml:lang="en-en" Name="HomeTubeCommandSet_en-en">
+    <AppName>Home tube</AppName>
+    
+    <Command Name="searchVideo">      
+      <Example></Example>
+      <ListenFor RequireAppName="AfterPhrase">{videos}</ListenFor>
+      <Feedback>Looking for {videos}</Feedback>
+      <Navigate Target="foo"/>
+    </Command>
+    
+  </CommandSet>
+</VoiceCommands>

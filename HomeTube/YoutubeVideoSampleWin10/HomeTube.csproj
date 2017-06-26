@@ -96,6 +96,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\IYoutubeVideoService.cs" />
     <Compile Include="Model\YoutubeVideo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="View\MainPage.xaml.cs">
@@ -104,6 +105,7 @@
     <Compile Include="View\VideoPage.xaml.cs">
       <DependentUpon>VideoPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\YoutubeVideoService.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -119,6 +121,7 @@
     <Content Include="Assets\Square71x71.png" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150.png" />
+    <Content Include="YouTubeCommands.xml" />
     <Content Include="Properties\Default.rd.xml" />
   </ItemGroup>
   <ItemGroup>
