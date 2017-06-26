@@ -14,14 +14,18 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using HomeTube.Model;
 
-namespace HomeTube
+namespace HomeTube.View
 {
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
     sealed partial class App : Application
     {
+
+        // could be decoupled via a ViewModelLocator but in this case we have only one ViewModel
+        public static MainPageViewModel MainPageViewModel { get; private set; }
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().

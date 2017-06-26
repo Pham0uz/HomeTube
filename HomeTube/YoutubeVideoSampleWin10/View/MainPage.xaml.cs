@@ -18,6 +18,7 @@ namespace HomeTube.View
     public sealed partial class MainPage : Page
     {
         private IYouTubeSvc m_youtubeService;
+        
         public MainPage()
         {
             this.InitializeComponent();
