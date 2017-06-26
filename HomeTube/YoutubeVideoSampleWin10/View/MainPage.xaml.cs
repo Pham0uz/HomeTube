@@ -17,11 +17,11 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Google.Apis.Services;
 using Google.Apis.YouTube.v3;
-using YoutubeVideoSampleWin10.Model;
+using HomeTube.Model;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace YoutubeVideoSampleWin10.View
+namespace HomeTube.View
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
@@ -42,6 +42,8 @@ namespace YoutubeVideoSampleWin10.View
                     //The number of videos you would like to get in one request(from 1 to 50)
                     int max_results = 50;
 
+
+                    
                     ////Channel Videos
                     ChannelVideos.Visibility = Visibility.Collapsed;
                     ChannelProgress.Visibility = Visibility.Visible;
@@ -72,6 +74,7 @@ namespace YoutubeVideoSampleWin10.View
                     PlaylistVideos.Visibility = Visibility.Visible;
                     PlaylistProgress.Visibility = Visibility.Collapsed;
                     /////////
+                    
                 }
                 else
                 {

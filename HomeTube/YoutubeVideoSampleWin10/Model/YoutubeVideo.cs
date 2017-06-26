@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace YoutubeVideoSampleWin10.Model
+namespace HomeTube.Model
 {
     public class YoutubeVideo
     {

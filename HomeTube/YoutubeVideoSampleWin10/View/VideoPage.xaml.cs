@@ -18,11 +18,11 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using MyToolkit.Multimedia;
-using YoutubeVideoSampleWin10.Model;
+using HomeTube.Model;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace YoutubeVideoSampleWin10.View
+namespace HomeTube.View
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
