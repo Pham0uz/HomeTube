@@ -32,6 +32,11 @@
       <Feedback>start video</Feedback>
       <Navigate Target="VideoPage.xaml"/>
     </Command>
+
+    <Command Name="=volumeUp">
+      <Example>Volume up 5</Example>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">Volume up {number}</ListenFor>
+    </Command>
     
     <!-- PhraseList-->
     <PhraseList Label="searchQuery">

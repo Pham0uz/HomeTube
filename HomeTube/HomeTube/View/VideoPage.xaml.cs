@@ -77,13 +77,27 @@ namespace HomeTube.View
         {
             player.Play();
         }
-        public void VolumeUp()
+        public void VolumeUp(int steps)
         {
-            player.Volume = player.Volume + 5;
+            player.Volume = player.Volume + steps;
         }
-        public void VolumeDown()
+        public void VolumeDown(int steps)
         {
-            player.Volume = player.Volume - 5;
+            player.Volume = player.Volume - steps;
         }
+        public void SkipUp(int steps)
+        {
+            player.Position = player.Position + new TimeSpan(0,0,steps);
+        }
+        public void SkipBack(int steps)
+        {
+            player.Position = player.Position - new TimeSpan(0, 0, steps);
+        }
+        //public void JumpTo(string time)
+        //{
+        //    string[] t = new string[2];
+        //    t = time.Split('.');
+        //    player.Position = new TimeSpan(0, int.Parse(t[0]), int.Parse(t[1]));
+        //}
     }
 }
