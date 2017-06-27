@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using HomeTube.ViewModel;
+using HomeTube.Services;
 
 namespace HomeTube
 {
@@ -50,6 +51,7 @@ namespace HomeTube
                 this.DebugSettings.EnableFrameRateCounter = true;
             }
 #endif
+            EnsureInstancedMainVM();
 
             Frame rootFrame = Window.Current.Content as Frame;
 
@@ -104,6 +106,14 @@ namespace HomeTube
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
+        }
+
+        private void EnsureInstancedMainVM()
+        {
+            if (App.MainPageViewModel == null)
+            {
+                App.MainPageViewModel = new MainPageViewModel(new YouTubeSvc());
+            }
         }
     }
 }

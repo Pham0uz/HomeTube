@@ -9,11 +9,13 @@ namespace HomeTube.ViewModel
 {
     public class MainPageViewModel : ViewModelBase
     {
-        private readonly IYouTubeSvc m_youtubeSvc;
+        private IYouTubeSvc m_youtubeSvc;
         private ObservableCollection<YoutubeVideo> m_youtubeItems;
+        private ObservableCollection<YoutubeVideo> m_channelVideos;
+        private ObservableCollection<YoutubeVideo> m_playlistVideos;
         private ICommand m_searchCommands;
-        // private string filters??
         private string m_searchQuery;
+
 
         private bool isLoading;
 
@@ -30,6 +32,32 @@ namespace HomeTube.ViewModel
             }
         }
 
+        public ObservableCollection<YoutubeVideo> ChannelVideos
+        {
+            get
+            {
+                return m_channelVideos;
+            }
+            private set
+            {
+                m_channelVideos = value;
+                NotifyPropertyChanged(nameof(ChannelVideos));
+            }
+        }
+
+        public ObservableCollection<YoutubeVideo> PlaylistVideos
+        {
+            get
+            {
+                return m_playlistVideos;
+            }
+            private set
+            {
+                m_playlistVideos = value;
+                NotifyPropertyChanged(nameof(PlaylistVideos));
+            }
+        }
+
         public string SearchQuery
         {
             get
@@ -40,6 +68,19 @@ namespace HomeTube.ViewModel
             {
                 m_searchQuery = value;
                 NotifyPropertyChanged(nameof(SearchQuery));
+            }
+        }
+
+        public IYouTubeSvc YouTubeService
+        {
+            get
+            {
+                return m_youtubeSvc;
+            }
+            set
+            {
+                m_youtubeSvc = value;
+                NotifyPropertyChanged(nameof(YouTubeService));
             }
         }
 
@@ -83,6 +124,8 @@ namespace HomeTube.ViewModel
             m_youtubeSvc = youtubeSvc;
 
             YouTubeItems = new ObservableCollection<YoutubeVideo>();
+            ChannelVideos = new ObservableCollection<YoutubeVideo>();
+            PlaylistVideos = new ObservableCollection<YoutubeVideo>();
 
             //this.m_searchCommands = new RelayCommand(async () => {
             //    await LoadDataAsync();

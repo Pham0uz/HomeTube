@@ -18,13 +18,11 @@ namespace HomeTube.View
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        //private IYouTubeSvc m_youtubeService;
         private MainPageViewModel MainVM;
         
         public MainPage()
         {
             this.InitializeComponent();
-            //m_youtubeService = new YouTubeSvc();
             MainVM = App.MainPageViewModel;
             DataContext = MainVM;
         }
@@ -47,11 +45,16 @@ namespace HomeTube.View
                     ChannelProgress.Visibility = Visibility.Visible;
 
                     //Here is the Id of the Channel
-                    string YoutubeChannel = "UCFtEEv80fQVKkD4h1PF-Xqw";
+                    string YouTubeChannel = "UCenPmqht0q6HPENkS49qSzw";
                     ////If you can't get the Channel Id, use the UserName to get it via this method
                     ////UserName
                     //string userName = "Microsoft";
                     //string YoutubeChannel = await GetChannelId(userName);
+                    
+                    foreach(var c in await MainVM.YouTubeService.GetChannelVideos(YouTubeChannel, max_results))
+                    {
+                        MainVM.ChannelVideos.Add(c);
+                    }
 
                     //var channelVideos = await m_youtubeService.GetChannelVideos(YoutubeChannel, max_results);
                     //ChannelVideos.ItemsSource = channelVideos;
@@ -65,7 +68,13 @@ namespace HomeTube.View
                     PlaylistProgress.Visibility = Visibility.Visible;
 
                     //Here is the ID of the Playlist
-                    string YoutubePlaylist = "PLFPUGjQjckXH0a_oCO0Cpt91JEVEIRRPn";
+                    string YouTubePlaylist = "PLiOKy6RSHbR9hxNtun3OzAt4PiY3ziQpJ";
+
+                    foreach (var p in await MainVM.YouTubeService.GetPlaylistVideos(YouTubePlaylist, max_results))
+                    {
+                        MainVM.PlaylistVideos.Add(p);
+                    }
+
                     //var playlistVideos = await m_youtubeService.GetPlaylistVideos(YoutubePlaylist, max_results);
                     //PlaylistVideos.ItemsSource = playlistVideos;
 
@@ -137,7 +146,11 @@ namespace HomeTube.View
             SearchItems.Visibility = Visibility.Collapsed;
             SearchProgress.Visibility = Visibility.Visible;
 
-            //var searchItems = await MainVM.m_youtubeService.ListItems(txtAutoSuggestBox.Text, 50);
+            foreach (var ytItems in await MainVM.YouTubeService.ListItems(MainVM.SearchQuery, 50))
+            {
+                MainVM.YouTubeItems.Add(ytItems);
+            }
+
             //SearchItems.ItemsSource = searchItems;
 
             SearchItems.Visibility = Visibility.Visible;

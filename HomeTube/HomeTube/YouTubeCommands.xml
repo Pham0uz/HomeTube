@@ -2,6 +2,7 @@
 <VoiceCommands xmlns="http://schemas.microsoft.com/voicecommands/1.2">
   <CommandSet xml:lang="en-us" Name="HomeTubeCommandSet_en-us">
     <AppName>Home Tube</AppName>
+    <Example>Justin Bieber - Sorry</Example>
     
     <Command Name="listItems">      
       <Example>Justin Bieber sorry.</Example>
