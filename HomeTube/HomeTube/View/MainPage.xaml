@@ -29,7 +29,7 @@
                     <StackPanel ScrollViewer.VerticalScrollBarVisibility="Disabled">
                         <!-- Search Videos-->
                         <AutoSuggestBox x:Name="txtAutoSuggestBox" ItemsSource="{Binding SearchQuery, Mode=TwoWay}" TextChanged="AutoSuggestBox_TextChanged" QuerySubmitted="AutoSuggestBox_QuerySubmitted" SuggestionChosen="AutoSuggestBox_SuggestionChosen" QueryIcon="Find" PlaceholderText="Search" VerticalAlignment="Top" HorizontalAlignment="Left" Width="300"/>
-                        <GridView x:Name="SearchItems" ItemClick="Videos_ItemClick" SelectionMode="None" IsItemClickEnabled="True" Grid.Row="1" Grid.Column="0" ItemTemplate="{StaticResource VideoDataTemplate}" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                        <GridView x:Name="SearchItems" ItemClick="Videos_ItemClick" SelectionMode="None" IsItemClickEnabled="True" Grid.Row="1" Grid.Column="0" ItemTemplate="{StaticResource VideoDataTemplate}" ItemsSource="{Binding YouTubeItems}" ScrollViewer.HorizontalScrollBarVisibility="Auto">
                             <GridView.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <WrapGrid MaximumRowsOrColumns="3" Orientation="Horizontal" />

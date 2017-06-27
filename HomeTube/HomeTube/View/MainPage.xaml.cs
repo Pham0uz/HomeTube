@@ -22,13 +22,14 @@ namespace HomeTube.View
         
         public MainPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             MainVM = App.MainPageViewModel;
             DataContext = MainVM;
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
+            base.OnNavigatedTo(e);
             try
             {
                 if (NetworkInterface.GetIsNetworkAvailable())
@@ -91,7 +92,7 @@ namespace HomeTube.View
             }
             catch { }
 
-            base.OnNavigatedTo(e);
+            // base.OnNavigatedTo(e);
         }
          
         // Auto-Suggest Box
@@ -141,7 +142,7 @@ namespace HomeTube.View
 
             else
 
-                txtAutoSuggestBox.Text = sender.Text;
+                MainVM.SearchQuery = sender.Text;
 
             SearchItems.Visibility = Visibility.Collapsed;
             SearchProgress.Visibility = Visibility.Visible;
