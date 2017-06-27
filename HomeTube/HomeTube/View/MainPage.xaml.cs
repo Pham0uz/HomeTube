@@ -8,6 +8,8 @@ using System.Collections.ObjectModel;
 using HomeTube.ViewModel;
 using Windows.UI.Xaml.Input;
 using HomeTube.Model;
+using System.Threading.Tasks;
+using Windows.UI.Core;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -19,7 +21,7 @@ namespace HomeTube.View
     public sealed partial class MainPage : Page
     {
         private MainPageViewModel MainVM;
-        
+
         public MainPage()
         {
             InitializeComponent();
@@ -51,8 +53,8 @@ namespace HomeTube.View
                     ////UserName
                     //string userName = "Microsoft";
                     //string YoutubeChannel = await GetChannelId(userName);
-                    
-                    foreach(var c in await MainVM.YouTubeService.GetChannelVideos(YouTubeChannel, max_results))
+
+                    foreach (var c in await MainVM.YouTubeService.GetChannelVideos(YouTubeChannel, max_results))
                     {
                         MainVM.ChannelVideos.Add(c);
                     }
@@ -84,9 +86,15 @@ namespace HomeTube.View
             }
             catch { }
 
-            // base.OnNavigatedTo(e);
+            // slightly delay setting focus
+            await Task.Factory.StartNew(
+                () => Dispatcher.RunAsync(CoreDispatcherPriority.Low,
+                    () => txtAutoSuggestBox.Focus(FocusState.Programmatic)));
+            txtAutoSuggestBox.Focus(FocusState.Programmatic);
+
+            base.OnNavigatedTo(e);
         }
-         
+
         // Auto-Suggest Box
         private ObservableCollection<String> suggestions;
 
@@ -131,10 +139,12 @@ namespace HomeTube.View
 
             else
 
-                MainVM.SearchQuery = sender.Text;
+                txtAutoSuggestBox.Text = sender.Text;
 
             SearchItems.Visibility = Visibility.Collapsed;
             SearchProgress.Visibility = Visibility.Visible;
+
+            MainVM.YouTubeItems.Clear();
 
             foreach (var ytItems in await MainVM.YouTubeService.ListItems(MainVM.SearchQuery, 50))
             {
@@ -163,7 +173,7 @@ namespace HomeTube.View
             if (video != null)
                 Frame.Navigate(typeof(VideoPage), video);
         }
-        
+
         // autosuggestbox workaround
         //private async void txtSearchBox_KeyDown(object sender, KeyRoutedEventArgs e)
         //{

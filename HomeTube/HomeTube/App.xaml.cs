@@ -92,41 +92,12 @@ namespace HomeTube
 
                 await Windows.ApplicationModel.VoiceCommands.VoiceCommandDefinitionManager.InstallCommandDefinitionsFromStorageFileAsync(vcdStorageFile);
 
-                // Update phrase list to help Cortana with all possible canteen names / meal names
-                await this.UpdatePhraseLists();
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine("Installing Voice Commands Failed: " + ex.ToString());
             }
-        }
 
-        private async Task UpdatePhraseLists()
-        {
-            try
-            {
-                VoiceCommandDefinition commandDefinitions;
-
-                // force en-US version
-                var countryCode = "en-us";
-
-                if (VoiceCommandDefinitionManager.InstalledCommandDefinitions.TryGetValue("HomeTubeCommandSet_" + countryCode, out commandDefinitions))
-                {
-                    var ytSvc = new YouTubeSvc();
-
-                    var canteens = await canteenService.GetCanteens(null, null);
-
-                    var canteenNames = canteens.Select(c => c.Name).Distinct().ToList();
-                    var mealNames = canteens.Select(c => c.Meal).Distinct().ToList();
-
-                    await commandDefinitions.SetPhraseListAsync("canteen", canteenNames);
-                    await commandDefinitions.SetPhraseListAsync("meal", mealNames);
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine("Updating Phrase list for VCDs: " + ex.ToString());
-            }
         }
 
         protected override async void OnActivated(IActivatedEventArgs args)
@@ -164,12 +135,12 @@ namespace HomeTube
                         // set the view model's search string
                         MainPageViewModel.SearchQuery = searchQuery;
 
+                        MainPageViewModel.YouTubeItems.Clear();
+
                         foreach (var ytItems in await MainPageViewModel.YouTubeService.ListItems(searchQuery, 50))
                         {
                             MainPageViewModel.YouTubeItems.Add(ytItems);
                         }
-
-
 
                         break;
 
