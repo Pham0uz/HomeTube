@@ -35,7 +35,30 @@
 
     <Command Name="=volumeUp">
       <Example>Volume up 5</Example>
-      <ListenFor RequireAppName="BeforeOrAfterPhrase">Volume up {number}</ListenFor>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">Volume up {vNumber}</ListenFor>
+      <Feedback>Volume up</Feedback>
+      <Navigate Target="VideoPage.xaml"/>
+    </Command>
+
+    <Command Name="=volumeDown">
+      <Example>Volume up 5</Example>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">Volume down {vNumber}</ListenFor>
+      <Feedback>Volume down</Feedback>
+      <Navigate Target="VideoPage.xaml"/>
+    </Command>
+
+    <Command Name="=skip">
+      <Example>Skip 5 secends</Example>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">Skip {number} </ListenFor>
+      <Feedback>Skip</Feedback>
+      <Navigate Target="VideoPage.xaml"/>
+    </Command>
+
+    <Command Name="goBack">
+      <Example>Go 5 secends back</Example>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">Go {number} back</ListenFor>
+      <Feedback>Go back</Feedback>
+      <Navigate Target="VideoPage.xaml"/>
     </Command>
     
     <!-- PhraseList-->
@@ -57,6 +80,26 @@
       <Item>third</Item>
       <Item>fourth</Item>
       <Item>fifth</Item>
+    </PhraseList>
+
+    <PhraseList Label="vNumber">
+      <Item>5</Item>
+      <Item>10</Item>
+      <Item>20</Item>
+      <Item>30</Item>
+      <Item>45</Item>
+    </PhraseList>
+
+    <PhraseList Label="number">
+      <Item>5</Item>
+      <Item>10</Item>
+      <Item>20</Item>
+      <Item>30</Item>
+      <Item>45</Item>
+      <Item>60</Item>
+      <Item>90</Item>
+      <Item>120</Item>
+      <Item>180</Item>
     </PhraseList>
 
   </CommandSet>

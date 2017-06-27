@@ -70,31 +70,6 @@ namespace HomeTube.View
             base.OnNavigatedTo(e);
         }
 
-        public void Pause()
-        {
-            player.Pause();
-        }
-
-        public void Play()
-        {
-            player.Play();
-        }
-        public void VolumeUp(int steps)
-        {
-            player.Volume = player.Volume + steps;
-        }
-        public void VolumeDown(int steps)
-        {
-            player.Volume = player.Volume - steps;
-        }
-        public void SkipUp(int steps)
-        {
-            player.Position = player.Position + new TimeSpan(0,0,steps);
-        }
-        public void SkipBack(int steps)
-        {
-            player.Position = player.Position - new TimeSpan(0, 0, steps);
-        }
         //public void JumpTo(string time)
         //{
         //    string[] t = new string[2];

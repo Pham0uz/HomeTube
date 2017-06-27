@@ -129,7 +129,7 @@ namespace HomeTube
                 // was entered by the user.
                 // Apps should respect "text" mode by providing feedback in silent form.
                 string commandMode = this.SemanticInterpretation("commandMode", speechRecognitionResult);
-
+                var player = MainPageViewModel.MediaElement;
                 switch (voiceCommandName)
                 {
                     case "listItems":
@@ -173,12 +173,27 @@ namespace HomeTube
                         break;
 
                     case "pauseVideo":
-                        MainPageViewModel.MediaElement.Pause();
+                        player.Pause();
+                        break;
+                    case "playVideo":
+                        player.Play();
+                        break;
+                    case "stop":
+                        player.Stop();
+                        break;
+                    case "volumeUp":
+                        player.Volume = player.Volume + int.Parse(this.SemanticInterpretation("vNumber", speechRecognitionResult));
+                        break;
+                    case "volumeDown":
+                        player.Volume = player.Volume - int.Parse(this.SemanticInterpretation("vNumber", speechRecognitionResult));
+                        break;
+                    case "skip":
+                        player.Position = player.Position + new TimeSpan(0, 0, int.Parse(this.SemanticInterpretation("number", speechRecognitionResult)));
+                        break;
+                    case "goBack":
+                        player.Position = player.Position - new TimeSpan(0, 0, int.Parse(this.SemanticInterpretation("number", speechRecognitionResult)));
                         break;
 
-                    case "playVideo":
-                        MainPageViewModel.MediaElement.Play();
-                        break;
 
 
                     //case "searchMealForeground":
