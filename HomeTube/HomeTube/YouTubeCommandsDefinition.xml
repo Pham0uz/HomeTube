@@ -7,14 +7,14 @@
     
     <Command Name="listItems">      
       <Example>Show me Justin Bieber sorry</Example>
-      <ListenFor RequireAppName="BeforeOrAfterPhrase">Show [me] {searchQuery}</ListenFor>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">[Show] [me] {searchQuery}</ListenFor>
       <Feedback>searching for {searchQuery}</Feedback>
       <Navigate Target="MainPage.xaml"/>
     </Command>
 
     <Command Name="selectedItem">
-      <Example>Select video 1</Example>
-      <ListenFor RequireAppName="BeforePhrase">Select video [number] {selected}</ListenFor>
+      <Example>Play video 1</Example>
+      <ListenFor RequireAppName="BeforePhrase">[Play] [Select] [video] [number] {selected} [video]</ListenFor>
       <Feedback>Play video number {selected}</Feedback>
       <Navigate Target="MainPage.xaml"/>
     </Command>
@@ -35,7 +35,7 @@
     
     <!-- PhraseList-->
     <PhraseList Label="searchQuery">
-      <Item>Justin Bieber</Item>
+      <Item>David Lengauer</Item>
       <Item>Selena Gomez</Item>
       <Item>Shake that</Item>
     </PhraseList>
@@ -46,6 +46,11 @@
       <Item>3</Item>
       <Item>4</Item>
       <Item>5</Item>
+      <Item>first</Item>
+      <Item>second</Item>
+      <Item>third</Item>
+      <Item>fourth</Item>
+      <Item>fifth</Item>
     </PhraseList>
 
   </CommandSet>

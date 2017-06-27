@@ -14,6 +14,7 @@ using HomeTube.View;
 using Windows.System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.VoiceCommands;
+using HomeTube.Model;
 
 namespace HomeTube
 {
@@ -92,41 +93,10 @@ namespace HomeTube
                 StorageFile vcdStorageFile = await Package.Current.InstalledLocation.GetFileAsync(@"YouTubeCommandsDefinition.xml");
 
                 await Windows.ApplicationModel.VoiceCommands.VoiceCommandDefinitionManager.InstallCommandDefinitionsFromStorageFileAsync(vcdStorageFile);
-
-                // Update phrase list to help Cortana with all possible canteen names / meal names
-                await this.UpdatePhraseLists();
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine("Installing Voice Commands Failed: " + ex.ToString());
-            }
-        }
-
-        private async Task UpdatePhraseLists()
-        {
-            try
-            {
-                VoiceCommandDefinition commandDefinitions;
-
-                // force en-US version
-                var countryCode = "en-us";
-
-                if (VoiceCommandDefinitionManager.InstalledCommandDefinitions.TryGetValue("HomeTubeCommandSet_" + countryCode, out commandDefinitions))
-                {
-                    var ytSvc = new YouTubeSvc();
-
-                    var canteens = await canteenService.GetCanteens(null, null);
-
-                    var canteenNames = canteens.Select(c => c.Name).Distinct().ToList();
-                    var mealNames = canteens.Select(c => c.Meal).Distinct().ToList();
-
-                    await commandDefinitions.SetPhraseListAsync("canteen", canteenNames);
-                    await commandDefinitions.SetPhraseListAsync("meal", mealNames);
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine("Updating Phrase list for VCDs: " + ex.ToString());
             }
         }
 
@@ -135,6 +105,10 @@ namespace HomeTube
             base.OnActivated(args);
 
             EnsureInstancedMainVM();
+
+            // for switching to VideoPage
+            var video = new YoutubeVideo();
+            string voiceCommandName = "";
 
             // If the app was launched via a Voice Command, this corresponds to the "show trip to <location>" command. 
             // Protocol activation occurs when a tile is clicked within Cortana (via the background task)
@@ -148,7 +122,7 @@ namespace HomeTube
 
                 // Get the name of the voice command and the text spoken. See AdventureWorksCommands.xml for
                 // the <Command> tags this can be filled with.
-                string voiceCommandName = speechRecognitionResult.RulePath[0];
+                voiceCommandName = speechRecognitionResult.RulePath[0];
                 string textSpoken = speechRecognitionResult.Text;
 
                 // The commandMode is either "voice" or "text", and it indictes how the voice command
@@ -170,17 +144,42 @@ namespace HomeTube
                             MainPageViewModel.YouTubeItems.Add(ytItems);
                         }
                         break;
+
                     case "selectedItem":
                         // Access the value of the {searchQuery} phrase in the voice command
                         var selected = this.SemanticInterpretation("selected", speechRecognitionResult);
+
+                        switch (selected)
+                        {
+                            case "first":
+                                selected = "1";
+                                break;
+                            case "second":
+                                selected = "2";
+                                break;
+                            case "third":
+                                selected = "3";
+                                break;
+                            case "fourth":
+                                selected = "4";
+                                break;
+                            case "fifth":
+                                selected = "5";
+                                break;
+                        }
+
+                        video = MainPageViewModel.YouTubeItems.ElementAtOrDefault(int.Parse(selected));
+
                         break;
+
                     case "pauseVideo":
                         VideoPagePlayer.Pause();
                         break;
+
                     case "playVideo":
                         VideoPagePlayer.Play();
                         break;
-          
+
 
                     //case "searchMealForeground":
                     //    // Access the value of the {destination} phrase in the voice command
@@ -198,7 +197,7 @@ namespace HomeTube
                 }
             }
 
-            // Re"peat the same basic initialization as OnLaunched() above, taking into account whether
+            // R"peat the same basic initialization as OnLaunched() above, taking into account whether
             // or not the app is already active.
             Frame rootFrame = Window.Current.Content as Frame;
 
@@ -215,7 +214,14 @@ namespace HomeTube
                 Window.Current.Content = rootFrame;
             }
 
-            rootFrame.Navigate(typeof(MainPage));
+            if (voiceCommandName == "selectedItem")
+            {
+                rootFrame.Navigate(typeof(VideoPage), video);
+            }
+            else
+            {
+                rootFrame.Navigate(typeof(MainPage));
+            }
 
             // Ensure the current window is active
             Window.Current.Activate();
