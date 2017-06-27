@@ -10,12 +10,13 @@ namespace HomeTube.ViewModel
     public class MainPageViewModel : ViewModelBase
     {
         private IYouTubeSvc m_youtubeSvc;
+
         private ObservableCollection<YoutubeVideo> m_youtubeItems;
         private ObservableCollection<YoutubeVideo> m_channelVideos;
         private ObservableCollection<YoutubeVideo> m_playlistVideos;
         private ICommand m_searchCommands;
-        private string m_searchQuery;
 
+        private string m_searchQuery;
 
         private bool isLoading;
 
@@ -64,7 +65,7 @@ namespace HomeTube.ViewModel
             {
                 return m_searchQuery;
             }
-            private set
+            set
             {
                 m_searchQuery = value;
                 NotifyPropertyChanged(nameof(SearchQuery));

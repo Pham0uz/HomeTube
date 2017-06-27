@@ -4,10 +4,10 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using HomeTube.Model;
 using System.Collections.ObjectModel;
-using HomeTube.Services;
 using HomeTube.ViewModel;
+using Windows.UI.Xaml.Input;
+using HomeTube.Model;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -56,12 +56,8 @@ namespace HomeTube.View
                         MainVM.ChannelVideos.Add(c);
                     }
 
-                    //var channelVideos = await m_youtubeService.GetChannelVideos(YoutubeChannel, max_results);
-                    //ChannelVideos.ItemsSource = channelVideos;
-
                     ChannelVideos.Visibility = Visibility.Visible;
                     ChannelProgress.Visibility = Visibility.Collapsed;
-                    /////////
 
                     ////Playlist Videos
                     PlaylistVideos.Visibility = Visibility.Collapsed;
@@ -75,12 +71,8 @@ namespace HomeTube.View
                         MainVM.PlaylistVideos.Add(p);
                     }
 
-                    //var playlistVideos = await m_youtubeService.GetPlaylistVideos(YoutubePlaylist, max_results);
-                    //PlaylistVideos.ItemsSource = playlistVideos;
-
                     PlaylistVideos.Visibility = Visibility.Visible;
                     PlaylistProgress.Visibility = Visibility.Collapsed;
-                    /////////
 
                 }
                 else
@@ -120,11 +112,8 @@ namespace HomeTube.View
                 //suggestions.Add(sender.Text + "6");
 
                 //suggestions.Add(sender.Text + "7");
-
                 //suggestions.Add(sender.Text + "8");
-
                 //suggestions.Add(sender.Text + "9");
-
                 //sender.ItemsSource = suggestions;
 
             }
@@ -173,6 +162,24 @@ namespace HomeTube.View
             if (video != null)
                 Frame.Navigate(typeof(VideoPage), video);
         }
+        
+        // autosuggestbox workaround
+        //private async void txtSearchBox_KeyDown(object sender, KeyRoutedEventArgs e)
+        //{
+        //    // on pressing "Enter"
+        //    if (e.Key == Windows.System.VirtualKey.Enter)
+        //    {
+        //        SearchItems.Visibility = Visibility.Collapsed;
+        //        SearchProgress.Visibility = Visibility.Visible;
 
+        //        foreach (var ytItems in await MainVM.YouTubeService.ListItems(MainVM.SearchQuery, 50))
+        //        {
+        //            MainVM.YouTubeItems.Add(ytItems);
+        //        }
+
+        //        SearchItems.Visibility = Visibility.Visible;
+        //        SearchProgress.Visibility = Visibility.Collapsed;
+        //    }
+        //}
     }
 }
