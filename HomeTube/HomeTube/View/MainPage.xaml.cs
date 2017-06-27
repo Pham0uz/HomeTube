@@ -38,7 +38,7 @@ namespace HomeTube.View
                     int max_results = 50;
 
                     ////Search Items
-                    SearchItems.Visibility = Visibility.Collapsed;
+                    //SearchItems.Visibility = Visibility.Collapsed;
                     SearchProgress.Visibility = Visibility.Collapsed;
 
                     ////Channel Videos

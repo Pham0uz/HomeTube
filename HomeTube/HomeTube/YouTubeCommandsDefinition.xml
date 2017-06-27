@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<VoiceCommands xmlns="http://schemas.microsoft.com/voicecommands/1.2">
+  <CommandSet xml:lang="en-us" Name="HomeTubeCommandSet_en-us">
+    <AppName> Home Tube</AppName>
+    <!--<CommandPrefix> Home Tube </CommandPrefix>-->
+    <Example>Show me Justin Bieber Sorry</Example>
+    
+    <Command Name="listItems">      
+      <Example>Show me Justin Bieber sorry</Example>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">Show [me] {searchQuery}</ListenFor>
+      <Feedback>searching for {searchQuery}</Feedback>
+      <Navigate Target="MainPage.xaml"/>
+    </Command>
+    
+    <Command Name="OpenWebsite">
+      <Example> Open website </Example>          
+      <ListenFor> Open website </ListenFor>    
+      <Feedback> Opening your website </Feedback>
+      <Navigate/>          
+    </Command>
+    
+    <PhraseList Label="searchQuery">
+      <Item>Justin Bieber Sorry</Item>
+    </PhraseList>  
+
+  </CommandSet>
+</VoiceCommands>

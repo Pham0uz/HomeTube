@@ -26,7 +26,7 @@ namespace HomeTube.ViewModel
             {
                 return m_youtubeItems;
             }
-            private set
+            set
             {
                 m_youtubeItems = value;
                 NotifyPropertyChanged(nameof(YouTubeItems));
@@ -39,7 +39,7 @@ namespace HomeTube.ViewModel
             {
                 return m_channelVideos;
             }
-            private set
+            set
             {
                 m_channelVideos = value;
                 NotifyPropertyChanged(nameof(ChannelVideos));
@@ -52,7 +52,7 @@ namespace HomeTube.ViewModel
             {
                 return m_playlistVideos;
             }
-            private set
+            set
             {
                 m_playlistVideos = value;
                 NotifyPropertyChanged(nameof(PlaylistVideos));

@@ -11,6 +11,9 @@ using Windows.Storage;
 using Windows.Media.SpeechRecognition;
 using System.Diagnostics;
 using HomeTube.View;
+using Windows.System;
+using System.Threading.Tasks;
+using Windows.ApplicationModel.VoiceCommands;
 
 namespace HomeTube
 {
@@ -85,10 +88,12 @@ namespace HomeTube
             {
                 // Install the main VCD. Since there's no simple way to test that the VCD has been imported, or that it's your most recent
                 // version, it's not unreasonable to do this upon app load.
-                StorageFile vcdStorageFile = await Package.Current.InstalledLocation.GetFileAsync(@"YouTubeCommands.xml");
+                StorageFile vcdStorageFile = await Package.Current.InstalledLocation.GetFileAsync(@"YouTubeCommandsDefinition.xml");
 
                 await Windows.ApplicationModel.VoiceCommands.VoiceCommandDefinitionManager.InstallCommandDefinitionsFromStorageFileAsync(vcdStorageFile);
 
+                // Update phrase list to help Cortana with all possible canteen names / meal names
+                await this.UpdatePhraseLists();
             }
             catch (Exception ex)
             {
@@ -96,7 +101,35 @@ namespace HomeTube
             }
         }
 
-        protected override void OnActivated(IActivatedEventArgs args)
+        private async Task UpdatePhraseLists()
+        {
+            try
+            {
+                VoiceCommandDefinition commandDefinitions;
+
+                // force en-US version
+                var countryCode = "en-us";
+
+                if (VoiceCommandDefinitionManager.InstalledCommandDefinitions.TryGetValue("HomeTubeCommandSet_" + countryCode, out commandDefinitions))
+                {
+                    var ytSvc = new YouTubeSvc();
+
+                    var canteens = await canteenService.GetCanteens(null, null);
+
+                    var canteenNames = canteens.Select(c => c.Name).Distinct().ToList();
+                    var mealNames = canteens.Select(c => c.Meal).Distinct().ToList();
+
+                    await commandDefinitions.SetPhraseListAsync("canteen", canteenNames);
+                    await commandDefinitions.SetPhraseListAsync("meal", mealNames);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Updating Phrase list for VCDs: " + ex.ToString());
+            }
+        }
+
+        protected override async void OnActivated(IActivatedEventArgs args)
         {
             base.OnActivated(args);
 
@@ -130,6 +163,19 @@ namespace HomeTube
 
                         // set the view model's search string
                         MainPageViewModel.SearchQuery = searchQuery;
+
+                        foreach (var ytItems in await MainPageViewModel.YouTubeService.ListItems(searchQuery, 50))
+                        {
+                            MainPageViewModel.YouTubeItems.Add(ytItems);
+                        }
+
+
+
+                        break;
+
+                    case "OpenWebsite":
+                        Uri website = new Uri(@"http://www.reddit.com");
+                        await Launcher.LaunchUriAsync(website);
 
                         break;
 

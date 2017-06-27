@@ -116,7 +116,6 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="YoutubeVideoSampleWin10_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\SplashScreen.png" />
@@ -126,7 +125,7 @@
     <Content Include="Assets\Square71x71.png" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150.png" />
-    <Content Include="YouTubeCommands.xml">
+    <Content Include="YouTubeCommandsDefinition.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Properties\Default.rd.xml" />
