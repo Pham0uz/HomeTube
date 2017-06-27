@@ -25,6 +25,7 @@ namespace HomeTube
 
         // could be decoupled via a ViewModelLocator but in this case we have only one ViewModel
         public static MainPageViewModel MainPageViewModel { get; private set; }
+        public static VideoPage VideoPagePlayer { get; set; }
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -168,16 +169,18 @@ namespace HomeTube
                         {
                             MainPageViewModel.YouTubeItems.Add(ytItems);
                         }
-
-
-
                         break;
-
-                    case "OpenWebsite":
-                        Uri website = new Uri(@"http://www.reddit.com");
-                        await Launcher.LaunchUriAsync(website);
-
+                    case "selectedItem":
+                        // Access the value of the {searchQuery} phrase in the voice command
+                        var selected = this.SemanticInterpretation("selected", speechRecognitionResult);
                         break;
+                    case "pauseVideo":
+                        VideoPagePlayer.Pause();
+                        break;
+                    case "playVideo":
+                        VideoPagePlayer.Play();
+                        break;
+          
 
                     //case "searchMealForeground":
                     //    // Access the value of the {destination} phrase in the voice command

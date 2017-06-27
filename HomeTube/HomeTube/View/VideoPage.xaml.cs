@@ -1,21 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Net.NetworkInformation;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.Foundation.Metadata;
 using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using MyToolkit.Multimedia;
 using HomeTube.Model;
@@ -33,8 +22,8 @@ namespace HomeTube.View
         {
             this.InitializeComponent();
 
-            Windows.UI.Core.SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-            Windows.UI.Core.SystemNavigationManager.GetForCurrentView().BackRequested += (s, a) =>
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+            SystemNavigationManager.GetForCurrentView().BackRequested += (s, a) =>
             {
                 Debug.WriteLine("BackRequested");
                 if (Frame.CanGoBack)
@@ -77,6 +66,24 @@ namespace HomeTube.View
             catch { }
 
             base.OnNavigatedTo(e);
+        }
+
+        public void Pause()
+        {
+            player.Pause();
+        }
+
+        public void Play()
+        {
+            player.Play();
+        }
+        public void VolumeUp()
+        {
+            player.Volume = player.Volume + 5;
+        }
+        public void VolumeDown()
+        {
+            player.Volume = player.Volume - 5;
         }
     }
 }

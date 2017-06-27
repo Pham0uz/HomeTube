@@ -145,5 +145,5 @@ namespace HomeTube.ViewModel
 
         //    this.IsLoading = false;
         //}
-    }
+   }
 }

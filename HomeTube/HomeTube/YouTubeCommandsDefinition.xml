@@ -11,17 +11,42 @@
       <Feedback>searching for {searchQuery}</Feedback>
       <Navigate Target="MainPage.xaml"/>
     </Command>
-    
-    <Command Name="OpenWebsite">
-      <Example> Open website </Example>          
-      <ListenFor> Open website </ListenFor>    
-      <Feedback> Opening your website </Feedback>
-      <Navigate/>          
+
+    <Command Name="selectedItem">
+      <Example>Select video 1</Example>
+      <ListenFor RequireAppName="BeforePhrase">Select video [number] {selected}</ListenFor>
+      <Feedback>Play video number {selected}</Feedback>
+      <Navigate Target="MainPage.xaml"/>
     </Command>
     
+    <Command Name="pauseVideo">
+      <Example>Pause video</Example>
+      <ListenFor RequireAppName="BeforePhrase">Pause [video] [music]</ListenFor>
+      <Feedback>Video paused</Feedback>
+      <Navigate Target="VideoPage.xaml"/>
+    </Command>
+
+    <Command Name="playVideo">
+      <Example>Play video</Example>
+      <ListenFor RequireAppName="BeforePhrase">Play [video] [music]</ListenFor>
+      <Feedback>start video</Feedback>
+      <Navigate Target="VideoPage.xaml"/>
+    </Command>
+    
+    <!-- PhraseList-->
     <PhraseList Label="searchQuery">
-      <Item>Justin Bieber Sorry</Item>
-    </PhraseList>  
+      <Item>Justin Bieber</Item>
+      <Item>Selena Gomez</Item>
+      <Item>Shake that</Item>
+    </PhraseList>
+    
+    <PhraseList Label="selected">
+      <Item>1</Item>
+      <Item>2</Item>
+      <Item>3</Item>
+      <Item>4</Item>
+      <Item>5</Item>
+    </PhraseList>
 
   </CommandSet>
 </VoiceCommands>
