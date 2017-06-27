@@ -4,6 +4,7 @@ using HomeTube.View;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using Windows.UI.Xaml.Controls;
 
 namespace HomeTube.ViewModel
 {
@@ -19,6 +20,8 @@ namespace HomeTube.ViewModel
         private string m_searchQuery;
 
         private bool isLoading;
+
+        private MediaElement m_mediaElement;
 
         public ObservableCollection<YoutubeVideo> YouTubeItems
         {
@@ -82,6 +85,19 @@ namespace HomeTube.ViewModel
             {
                 m_youtubeSvc = value;
                 NotifyPropertyChanged(nameof(YouTubeService));
+            }
+        }
+
+        public MediaElement MediaElement
+        {
+            get
+            {
+                return m_mediaElement;
+            }
+            set
+            {
+                m_mediaElement= value;
+                NotifyPropertyChanged(nameof(MediaElement));
             }
         }
 

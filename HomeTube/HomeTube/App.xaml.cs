@@ -15,6 +15,7 @@ using Windows.System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.VoiceCommands;
 using HomeTube.Model;
+using Windows.UI.Popups;
 
 namespace HomeTube
 {
@@ -26,7 +27,6 @@ namespace HomeTube
 
         // could be decoupled via a ViewModelLocator but in this case we have only one ViewModel
         public static MainPageViewModel MainPageViewModel { get; private set; }
-        public static VideoPage VideoPagePlayer { get; set; }
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -168,16 +168,16 @@ namespace HomeTube
                                 break;
                         }
 
-                        video = MainPageViewModel.YouTubeItems.ElementAtOrDefault(int.Parse(selected));
+                        video = MainPageViewModel.YouTubeItems.ElementAtOrDefault(int.Parse(selected) - 1);
 
                         break;
 
                     case "pauseVideo":
-                        VideoPagePlayer.Pause();
+                        MainPageViewModel.MediaElement.Pause();
                         break;
 
                     case "playVideo":
-                        VideoPagePlayer.Play();
+                        MainPageViewModel.MediaElement.Play();
                         break;
 
 
@@ -214,14 +214,15 @@ namespace HomeTube
                 Window.Current.Content = rootFrame;
             }
 
-            if (voiceCommandName == "selectedItem")
-            {
-                rootFrame.Navigate(typeof(VideoPage), video);
-            }
-            else
+            if (voiceCommandName == "listItems")
             {
                 rootFrame.Navigate(typeof(MainPage));
             }
+            else if (voiceCommandName == "selectedItem")
+            {
+                rootFrame.Navigate(typeof(VideoPage), video);
+            }
+
 
             // Ensure the current window is active
             Window.Current.Activate();

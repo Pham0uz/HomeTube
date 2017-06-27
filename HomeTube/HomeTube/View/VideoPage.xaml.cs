@@ -32,6 +32,8 @@ namespace HomeTube.View
                     a.Handled = true;
                 }
             };
+
+            App.MainPageViewModel.MediaElement = player;
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)

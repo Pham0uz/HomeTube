@@ -165,8 +165,8 @@ namespace HomeTube.Services
         {
             var searchItemsListRequest = youtubeService.Search.List("snippet");
             searchItemsListRequest.Q = searchQuery;
-            //searchItemsListRequest.Type = "video";
-            //searchItemsListRequest.Order = Google.Apis.YouTube.v3.SearchResource.ListRequest.OrderEnum.Relevance;
+            searchItemsListRequest.Type = "video";
+            //searchItemsListRequest.Order = Google.Apis.YouTube.v3.SearchResource.ListRequest.OrderEnum.ViewCount;
             searchItemsListRequest.MaxResults = maxResults;
             searchItemsListRequest.PageToken = "";
 
@@ -175,6 +175,7 @@ namespace HomeTube.Services
 
             foreach (var searchItem in searchItemsListResponse.Items)
             {
+                searchItem.Snippet.
                 searchItems.Add(
                     new YoutubeVideo
                     {
