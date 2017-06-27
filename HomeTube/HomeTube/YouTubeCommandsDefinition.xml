@@ -7,37 +7,38 @@
     
     <Command Name="listItems">      
       <Example>Show me Justin Bieber sorry</Example>
-      <ListenFor RequireAppName="BeforeOrAfterPhrase">[Show] [me] {searchQuery}</ListenFor>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">Show [me] {searchQuery}</ListenFor>
       <Feedback>searching for {searchQuery}</Feedback>
       <Navigate Target="MainPage.xaml"/>
     </Command>
 
     <Command Name="selectedItem">
       <Example>Play video 1</Example>
-      <ListenFor RequireAppName="BeforePhrase">[Play] [Select] [video] [number] {selected} [video]</ListenFor>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">Play [video] [number] {selected} [video]</ListenFor>
       <Feedback>Play video number {selected}</Feedback>
       <Navigate Target="MainPage.xaml"/>
     </Command>
     
     <Command Name="pauseVideo">
       <Example>Pause video</Example>
-      <ListenFor RequireAppName="BeforePhrase">Pause [video] [music]</ListenFor>
-      <Feedback>Video paused</Feedback>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">Pause [the] video</ListenFor>
+      <Feedback>Pause video</Feedback>
       <Navigate Target="VideoPage.xaml"/>
     </Command>
 
     <Command Name="playVideo">
-      <Example>Play video</Example>
-      <ListenFor RequireAppName="BeforePhrase">Play [video] [music]</ListenFor>
-      <Feedback>start video</Feedback>
+      <Example>Resume video</Example>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">Resume video</ListenFor>
+      <Feedback>Resume video</Feedback>
       <Navigate Target="VideoPage.xaml"/>
     </Command>
     
     <!-- PhraseList-->
     <PhraseList Label="searchQuery">
-      <Item>David Lengauer</Item>
+      <Item>Justin Bieber</Item>
       <Item>Selena Gomez</Item>
       <Item>Shake that</Item>
+      <Item>David Lengauer</Item>
     </PhraseList>
     
     <PhraseList Label="selected">
