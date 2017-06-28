@@ -25,6 +25,6 @@ namespace HomeTube.Services
         Task<string> GetChannelId(string userName);
 
         //Get List YouTube Items
-        Task<List<YoutubeVideo>> ListItems(string searchQuery, int maxResults);
+        Task<List<YoutubeVideo>> ListItems(string searchQuery, int maxResults, string type);
     }
 }

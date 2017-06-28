@@ -132,19 +132,65 @@ namespace HomeTube
                 var player = MainPageViewModel.MediaElement;
                 double volume = 0;
                 int currentIdx = 0;
+                string searchQuery = "";
 
                 switch (voiceCommandName)
                 {
-                    case "listItems":
+                    //case "listItems":
+                    //    // Access the value of the {searchQuery} phrase in the voice command
+                    //    searchQuery = this.SemanticInterpretation("searchQuery", speechRecognitionResult);
+
+                    //    // set the view model's search string
+                    //    MainPageViewModel.SearchQuery = searchQuery;
+
+                    //    MainPageViewModel.YouTubeItems.Clear();
+
+                    //    foreach (var ytItems in await MainPageViewModel.YouTubeService.ListItems(searchQuery, MainPageViewModel.MaxResults, "video"))
+                    //    {
+                    //        MainPageViewModel.YouTubeItems.Add(ytItems);
+                    //    }
+                    //    break;
+
+                    case "searchVideo":
                         // Access the value of the {searchQuery} phrase in the voice command
-                        var searchQuery = this.SemanticInterpretation("searchQuery", speechRecognitionResult);
+                        searchQuery = this.SemanticInterpretation("searchQuery", speechRecognitionResult);
 
                         // set the view model's search string
                         MainPageViewModel.SearchQuery = searchQuery;
 
                         MainPageViewModel.YouTubeItems.Clear();
 
-                        foreach (var ytItems in await MainPageViewModel.YouTubeService.ListItems(searchQuery, MainPageViewModel.MaxResults))
+                        foreach (var ytItems in await MainPageViewModel.YouTubeService.ListItems(searchQuery, MainPageViewModel.MaxResults, "video"))
+                        {
+                            MainPageViewModel.YouTubeItems.Add(ytItems);
+                        }
+                        break;
+
+                    case "searchChannel":
+                        // Access the value of the {searchQuery} phrase in the voice command
+                        searchQuery = this.SemanticInterpretation("searchQuery", speechRecognitionResult);
+
+                        // set the view model's search string
+                        MainPageViewModel.SearchQuery = searchQuery;
+
+                        MainPageViewModel.YouTubeItems.Clear();
+
+                        foreach (var ytItems in await MainPageViewModel.YouTubeService.ListItems(searchQuery, MainPageViewModel.MaxResults, "channel"))
+                        {
+                            MainPageViewModel.YouTubeItems.Add(ytItems);
+                        }
+                        break;
+
+                    case "searchPlaylist":
+                        // Access the value of the {searchQuery} phrase in the voice command
+                        searchQuery = this.SemanticInterpretation("searchQuery", speechRecognitionResult);
+
+                        // set the view model's search string
+                        MainPageViewModel.SearchQuery = searchQuery;
+
+                        MainPageViewModel.YouTubeItems.Clear();
+
+                        foreach (var ytItems in await MainPageViewModel.YouTubeService.ListItems(searchQuery, MainPageViewModel.MaxResults, "playlist"))
                         {
                             MainPageViewModel.YouTubeItems.Add(ytItems);
                         }

@@ -25,6 +25,8 @@ namespace HomeTube.ViewModel
         private MediaElement m_mediaElement;
         private int m_currentElementInList;
 
+        private string m_header;
+
         public ObservableCollection<YoutubeVideo> YouTubeItems
         {
             get
@@ -129,6 +131,19 @@ namespace HomeTube.ViewModel
             }
         }
 
+        public string Header
+        {
+            get
+            {
+                return m_header;
+            }
+            set
+            {
+                m_header = value;
+                NotifyPropertyChanged(nameof(SearchQuery));
+            }
+        }
+
         public bool IsLoading
         {
             get
@@ -173,6 +188,8 @@ namespace HomeTube.ViewModel
             PlaylistVideos = new ObservableCollection<YoutubeVideo>();
 
             m_maxResults = 20;
+
+            m_header = "Search";
 
             //this.m_searchCommands = new RelayCommand(async () => {
             //    await LoadDataAsync();

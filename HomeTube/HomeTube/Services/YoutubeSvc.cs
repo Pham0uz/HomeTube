@@ -73,7 +73,7 @@ namespace HomeTube.Services
                         Id = channelItem.Id.VideoId,
                         Title = channelItem.Snippet.Title,
                         Description = channelItem.Snippet.Description,
-                        PubDate = channelItem.Snippet.PublishedAt,
+                        PubDate = channelItem.Snippet.PublishedAt.Value.Date.ToString("d"),
                         Thumbnail = channelItem.Snippet.Thumbnails.Medium.Url,
                         YoutubeLink = "https://www.youtube.com/watch?v=" + channelItem.Id.VideoId
                     });
@@ -106,7 +106,7 @@ namespace HomeTube.Services
                             Id = channelItem.Id.VideoId,
                             Title = channelItem.Snippet.Title,
                             Description = channelItem.Snippet.Description,
-                            PubDate = channelItem.Snippet.PublishedAt,
+                            PubDate = channelItem.Snippet.PublishedAt.Value.Date.ToString("d"),
                             Thumbnail = channelItem.Snippet.Thumbnails.Medium.Url,
                             YoutubeLink = "https://www.youtube.com/watch?v=" + channelItem.Id.VideoId
                         });
@@ -140,7 +140,7 @@ namespace HomeTube.Services
                         Id = playlistItem.Snippet.ResourceId.VideoId,
                         Title = playlistItem.Snippet.Title,
                         Description = playlistItem.Snippet.Description,
-                        PubDate = playlistItem.Snippet.PublishedAt,
+                        PubDate = playlistItem.Snippet.PublishedAt.Value.Date.ToString("d"),
                         Thumbnail = playlistItem.Snippet.Thumbnails.Medium.Url,
                         YoutubeLink = "https://www.youtube.com/watch?v=" + playlistItem.Snippet.ResourceId.VideoId
                     });
@@ -161,11 +161,12 @@ namespace HomeTube.Services
         }
 
         //Get Channel Videos
-        public async Task<List<YoutubeVideo>> ListItems(string searchQuery, int maxResults)
+        public async Task<List<YoutubeVideo>> ListItems(string searchQuery, int maxResults, string type)
         {
             var searchItemsListRequest = youtubeService.Search.List("snippet");
             searchItemsListRequest.Q = searchQuery;
-            searchItemsListRequest.Type = "video";
+            searchItemsListRequest.Type = type;
+            // default order
             //searchItemsListRequest.Order = Google.Apis.YouTube.v3.SearchResource.ListRequest.OrderEnum.Relevance;
             searchItemsListRequest.MaxResults = maxResults;
             searchItemsListRequest.PageToken = "";
@@ -173,17 +174,35 @@ namespace HomeTube.Services
             var searchItemsListResponse = await searchItemsListRequest.ExecuteAsync();
             List<YoutubeVideo> searchItems = new List<YoutubeVideo>();
 
+            //for type
+            string searchItemType = "";
+
             foreach (var searchItem in searchItemsListResponse.Items)
             {
+                if (searchItem.Id.Kind == "youtube#video")
+                {
+                    searchItemType = "video";
+                }
+                else if (searchItem.Id.Kind == "youtube#channel")
+                {
+                    searchItemType = "channel";
+                }
+                else
+                {
+                    searchItemType = "playlist";
+                }
+
+
                 searchItems.Add(
                     new YoutubeVideo
                     {
                         Id = searchItem.Id.VideoId,
                         Title = searchItem.Snippet.Title,
                         Description = searchItem.Snippet.Description,
-                        PubDate = searchItem.Snippet.PublishedAt,
+                        PubDate = searchItem.Snippet.PublishedAt.Value.Date.ToString("d"),
                         Thumbnail = searchItem.Snippet.Thumbnails.High.Url,
-                        YoutubeLink = "https://www.youtube.com/watch?v=" + searchItem.Id.VideoId
+                        YoutubeLink = "https://www.youtube.com/watch?v=" + searchItem.Id.VideoId,
+                        Type = searchItemType
                     });
             }
             return searchItems;

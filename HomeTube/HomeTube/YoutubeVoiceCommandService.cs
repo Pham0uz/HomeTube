@@ -160,7 +160,7 @@ namespace HomeTube.Services
             var service = new YouTubeSvc();
 
             // query service to get items
-            var searchItems = await service.ListItems(searchQuery, App.MainPageViewModel.MaxResults);
+            var searchItems = await service.ListItems(searchQuery, App.MainPageViewModel.MaxResults, "video");
 
             var userMessage = new VoiceCommandUserMessage();
             var destinationsContentTiles = new List<VoiceCommandContentTile>();

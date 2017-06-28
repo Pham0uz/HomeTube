@@ -15,6 +15,7 @@
                     <StackPanel VerticalAlignment="Center" Margin="10,10,10,10" HorizontalAlignment="Left" Width="220">
                         <TextBlock FontSize="20" x:Name="Title" Margin="5" Foreground="Black" Text="{Binding Title}" TextAlignment="Center" TextWrapping="Wrap" Height="58" HorizontalAlignment="Center" />
                         <TextBlock x:Name="PubDate" Foreground="Black" Margin="5" Text="{Binding PubDate}" TextAlignment="Center" TextWrapping="Wrap" Height="30" HorizontalAlignment="Center" />
+                        <TextBlock x:Name="Type" Foreground="Black" Margin="5" Text="{Binding Type}" TextAlignment="Center" TextWrapping="Wrap" Height="30" HorizontalAlignment="Center" />
                     </StackPanel>
                 </StackPanel>
             </Grid>
@@ -24,11 +25,10 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" ScrollViewer.VerticalScrollBarVisibility="Disabled">
         <!-- Page title -->
         <Pivot Margin="0" Title="HomeTube" ScrollViewer.VerticalScrollBarVisibility="Disabled">
-            <PivotItem Header="Search Videos" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+            <PivotItem Header="{Binding Header}" ScrollViewer.VerticalScrollBarVisibility="Disabled">
                 <ScrollViewer>
                     <StackPanel ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                        <!-- Search Videos-->
-                        <!-- for future update: suggestions are missing -->
+                        <!-- Videos-->
                         <AutoSuggestBox x:Name="txtAutoSuggestBox" Text="{Binding SearchQuery, Mode=TwoWay}" TabIndex="1" TextChanged="AutoSuggestBox_TextChanged" QuerySubmitted="AutoSuggestBox_QuerySubmitted" SuggestionChosen="AutoSuggestBox_SuggestionChosen" QueryIcon="Find" PlaceholderText="Search" VerticalAlignment="Top" HorizontalAlignment="Left" Width="300"/>
                         <!--<TextBox x:Name="txtSearchBox" Text="{Binding SearchQuery, Mode=TwoWay}" PlaceholderText="Search" VerticalAlignment="Top" HorizontalAlignment="Left" Width="300" Grid.Column="0" KeyDown="txtSearchBox_KeyDown"/>-->
                         <GridView x:Name="SearchItems" ItemClick="Videos_ItemClick" SelectionMode="None" IsItemClickEnabled="True" Grid.Row="1" Grid.Column="0" ItemTemplate="{StaticResource VideoDataTemplate}" ItemsSource="{Binding YouTubeItems}"  ScrollViewer.HorizontalScrollBarVisibility="Auto">
@@ -43,10 +43,10 @@
                 </ScrollViewer>
             </PivotItem>
             
-            <PivotItem Header="Channel Videos" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+            <!--<PivotItem Header="Channel Videos" ScrollViewer.VerticalScrollBarVisibility="Disabled">
                 <ScrollViewer>
                     <StackPanel ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                        <!-- Channel Videos-->
+                         Channel Videos
                         <GridView x:Name="ChannelVideos" ItemClick="Videos_ItemClick" SelectionMode="None" IsItemClickEnabled="True" Grid.Row="1" Grid.Column="1" ItemTemplate="{StaticResource VideoDataTemplate}" ItemsSource="{Binding ChannelVideos}" ScrollViewer.HorizontalScrollBarVisibility="Auto">
                             <GridView.ItemsPanel>
                                 <ItemsPanelTemplate>
@@ -61,7 +61,7 @@
             
             <PivotItem Header="Playlist Videos" ScrollViewer.VerticalScrollBarVisibility="Disabled">
                 <StackPanel ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                    <!-- Playlist Videos-->
+                     Playlist Videos
                     <GridView x:Name="PlaylistVideos" ItemClick="Videos_ItemClick" SelectionMode="None" IsItemClickEnabled="True" Grid.Row="1" Grid.Column="2" ItemTemplate="{StaticResource VideoDataTemplate}" ItemsSource="{Binding PlaylistVideos}" ScrollViewer.HorizontalScrollBarVisibility="Auto">
                         <GridView.ItemsPanel>
                             <ItemsPanelTemplate>
@@ -71,7 +71,7 @@
                     </GridView>
                     <ProgressRing x:Name="PlaylistProgress" IsActive="True" Grid.Row="1" Grid.Column="1" Width="100" Height="100"/>
                 </StackPanel>
-            </PivotItem>
+            </PivotItem>-->
         </Pivot>
     </Grid>
 

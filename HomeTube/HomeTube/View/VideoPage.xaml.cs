@@ -57,7 +57,7 @@ namespace HomeTube.View
                         //Get The Video Uri and set it as a player source
                         var url = await YouTube.GetVideoUriAsync(video.Id, YouTubeQuality.Quality2160P);
                         player.Source = url.Uri;
-                        Debug.WriteLine(url.Uri);
+                        Debug.WriteLine($"Debug: {url.Uri}");
                         MainVM.CurrentElementInList = MainVM.YouTubeItems.IndexOf(video);
 
                     }
