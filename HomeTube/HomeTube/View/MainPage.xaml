@@ -33,7 +33,7 @@
         </Grid.Background>
         <!-- Page title -->
         <Pivot Margin="0" Title="HomeTube" ScrollViewer.VerticalScrollBarVisibility="Disabled" Foreground="White">
-            <PivotItem  Header="{Binding YouTubeItems[0].Type, Mode=TwoWay}" ScrollViewer.VerticalScrollBarVisibility="Disabled" Foreground="White">
+            <PivotItem  Header="{Binding Header, Mode=TwoWay}" ScrollViewer.VerticalScrollBarVisibility="Disabled" Foreground="White">
                 <ScrollViewer>
                     <StackPanel ScrollViewer.VerticalScrollBarVisibility="Auto">
                         <AutoSuggestBox x:Name="txtAutoSuggestBox" Text="{Binding SearchQuery, Mode=TwoWay}" TabIndex="1" TextChanged="AutoSuggestBox_TextChanged" QuerySubmitted="AutoSuggestBox_QuerySubmitted" SuggestionChosen="AutoSuggestBox_SuggestionChosen" QueryIcon="Find" PlaceholderText="Search" VerticalAlignment="Top" HorizontalAlignment="Left" MinWidth="600" Margin="0,5,5,5"/>
@@ -48,7 +48,22 @@
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>
-
+            <PivotItem x:Name="LoginTab" Header="Account">
+                <Grid>
+                    <StackPanel x:Name="Info" Visibility="Collapsed">
+                        <TextBlock Text="You are logged in. Welcome!" FontSize="36" Margin="4" TextAlignment="Center" />
+                        <Button x:Name="LogoutButton" Content="Logout" Background="Black" Foreground="White" Click="LogoutButton_Click" Width="80" HorizontalAlignment="Center" Margin="0,20"/>
+                    </StackPanel>
+                    <StackPanel x:Name="LoginPanel" Orientation="Vertical" Margin="0,113,0,-113">
+                        <TextBlock Text="Login" FontSize="36" Margin="4" TextAlignment="Center"/>
+                        <TextBlock x:Name="ErrorMessage" Text="" FontSize="20" Margin="4" Foreground="Red" TextAlignment="Center"/>
+                        <TextBlock x:Name="Error" Text="E-Mail addresse or password is incorrect! Please try again." Visibility="Collapsed" Margin="0,0,0,20" TextWrapping="Wrap" Width="300" TextAlignment="Center" VerticalAlignment="Center" FontSize="16"/>
+                        <TextBox x:Name="EmailTextBox" PlaceholderText="E-Mail" Margin="4" Width="250"/>
+                        <TextBox x:Name="PasswordTextBox" PlaceholderText="Password" Margin="4" Width="250"/>
+                        <Button x:Name="LoginButton" Content="Login" Background="Black" Foreground="White" Click="LoginButton_Click" Width="80" HorizontalAlignment="Center" Margin="0,20"/>
+                    </StackPanel>
+                </Grid>
+            </PivotItem>
             <!--<PivotItem Header="Channel Videos" ScrollViewer.VerticalScrollBarVisibility="Disabled">
                 <ScrollViewer>
                     <StackPanel ScrollViewer.VerticalScrollBarVisibility="Disabled">

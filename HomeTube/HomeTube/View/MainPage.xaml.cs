@@ -10,6 +10,7 @@ using Windows.UI.Xaml.Input;
 using HomeTube.Model;
 using System.Threading.Tasks;
 using Windows.UI.Core;
+using System.Text.RegularExpressions;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -148,6 +149,39 @@ namespace HomeTube.View
             YoutubeVideo video = e.ClickedItem as YoutubeVideo;
             if (video != null)
                 Frame.Navigate(typeof(VideoPage), video);
+        }
+        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (success())
+            {
+                LoginPanel.Visibility = Visibility.Collapsed;
+                Info.Visibility = Visibility.Visible;
+                Error.Visibility = Visibility.Collapsed;
+                EmailTextBox.Text = "";
+                PasswordTextBox.Text = "";
+            }
+            else
+            {
+                Error.Visibility = Visibility.Visible;
+            }
+        }
+        private void LogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            LoginPanel.Visibility = Visibility.Visible;
+            Info.Visibility = Visibility.Collapsed;
+        }
+        private bool success()
+        {
+            Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+            if (!regex.IsMatch(EmailTextBox.Text))
+            {
+                return false;
+            }
+            if(PasswordTextBox.Text == "")
+            {
+                return false;
+            }
+            return true;
         }
     }
 }
