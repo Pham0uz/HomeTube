@@ -1,10 +1,10 @@
 ﻿{
   "dependencies": {
-    "Google.Apis": "1.11.1",
-    "Google.Apis.YouTube.v3": "1.9.2.1470",
+    "Google.Apis": "1.13.1",
+    "Google.Apis.YouTube.v3": "1.13.1.511",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0",
-    "MyToolkit": "2.4.2",
-    "MyToolkit.Extended": "2.4.2"
+    "MyToolkit": "2.5.16",
+    "MyToolkit.Extended": "2.5.16"
   },
   "frameworks": {
     "uap10.0": {}

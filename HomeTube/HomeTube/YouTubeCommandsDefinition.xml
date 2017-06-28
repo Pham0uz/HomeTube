@@ -97,14 +97,6 @@
     </Command>
 
     <!-- PhraseList-->
-    <PhraseList Label="searchQuery">
-      <Item>Justin Bieber</Item>
-      <Item>Despacito</Item>
-      <Item>Selena Gomez</Item>
-      <Item>Shake that</Item>
-      <Item>David Lengauer</Item>
-    </PhraseList>
-
     <PhraseList Label="selected">
       <Item>1</Item>
       <Item>2</Item>
@@ -138,6 +130,9 @@
       <Item>120</Item>
       <Item>180</Item>
     </PhraseList>
+
+    <!--PhraseTopic-->
+    <PhraseTopic Label="searchQuery" Scenario="Search"/>
 
   </CommandSet>
 </VoiceCommands>
