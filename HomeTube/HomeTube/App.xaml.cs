@@ -180,7 +180,6 @@ namespace HomeTube
 
                         MainPageViewModel.Header = "Channels";
 
-
                         foreach (var ytItems in await MainPageViewModel.YouTubeService.ListItems(searchQuery, MainPageViewModel.MaxResults, "channel"))
                         {
                             MainPageViewModel.YouTubeItems.Add(ytItems);
@@ -235,11 +234,11 @@ namespace HomeTube
                             case "Videos":
                                 break;
 
-                            case "Channels":
+                            case "Channel":
                                 selectedItemType = "Channel";
                                 break;
 
-                            case "Playlists":
+                            case "Playlist":
                                 selectedItemType = "Playlist";
                                 break;
 
@@ -314,6 +313,10 @@ namespace HomeTube
                         selectedItem = MainPageViewModel.YouTubeItems.ElementAtOrDefault(currentIdx);
                         break;
 
+                    case "exit":
+                        Application.Current.Exit();
+                        break;
+
                     default:
                         // If we can't determine what page to launch, go to the default entry point.
                         Debug.WriteLine("default");
@@ -367,7 +370,10 @@ namespace HomeTube
                     rootFrame.Navigate(typeof(MainPage));
 
                 }
-                rootFrame.Navigate(typeof(VideoPage), selectedItem);
+                else
+                {
+                    rootFrame.Navigate(typeof(VideoPage), selectedItem);
+                }
             }
 
 
