@@ -120,6 +120,7 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\festisite_youtube.png" />
     <Content Include="Assets\SplashScreen.png" />
     <Content Include="Assets\Square150x150.png" />
     <Content Include="Assets\Square44x44.png" />
