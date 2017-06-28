@@ -107,8 +107,9 @@ namespace HomeTube
             EnsureInstancedMainVM();
 
             // for switching to VideoPage
-            var video = new YoutubeVideo();
+            var selectedItem = new YoutubeVideo();
             string voiceCommandName = "";
+            string selectedItemType = "Video";  // default case
 
             // If the app was launched via a Voice Command, this corresponds to the "show trip to <location>" command. 
             // Protocol activation occurs when a tile is clicked within Cortana (via the background task)
@@ -226,7 +227,26 @@ namespace HomeTube
                                 break;
                         }
 
-                        video = MainPageViewModel.YouTubeItems.ElementAtOrDefault(int.Parse(selected) - 1);
+                        selectedItem = MainPageViewModel.YouTubeItems.ElementAtOrDefault(int.Parse(selected) - 1);
+
+                        // switch for searchQueryType
+                        switch (MainPageViewModel.YouTubeItems.ElementAtOrDefault(int.Parse(selected) - 1).Type)
+                        {
+                            case "Videos":
+                                break;
+
+                            case "Channels":
+                                selectedItemType = "Channel";
+                                break;
+
+                            case "Playlists":
+                                selectedItemType = "Playlist";
+                                break;
+
+                        }
+
+                        if (selectedItemType == "Video")
+                            selectedItem = MainPageViewModel.YouTubeItems.ElementAtOrDefault(int.Parse(selected) - 1);
 
                         break;
 
@@ -286,12 +306,12 @@ namespace HomeTube
 
                     case "nextVideo":
                         currentIdx = MainPageViewModel.CurrentElementInList + 1;
-                        video = MainPageViewModel.YouTubeItems.ElementAtOrDefault(currentIdx);
+                        selectedItem = MainPageViewModel.YouTubeItems.ElementAtOrDefault(currentIdx);
                         break;
 
                     case "prevVideo":
                         currentIdx = MainPageViewModel.CurrentElementInList - 1;
-                        video = MainPageViewModel.YouTubeItems.ElementAtOrDefault(currentIdx);
+                        selectedItem = MainPageViewModel.YouTubeItems.ElementAtOrDefault(currentIdx);
                         break;
 
                     default:
@@ -324,7 +344,30 @@ namespace HomeTube
             }
             else if (voiceCommandName == "selectedItem" || voiceCommandName == "nextVideo" || voiceCommandName == "prevVideo")
             {
-                rootFrame.Navigate(typeof(VideoPage), video);
+                if (selectedItemType == "Channel")
+                {
+                    MainPageViewModel.YouTubeItems.Clear();
+                    // List Channel Videos and navigate to main
+                    foreach (var vid in await MainPageViewModel.YouTubeService.ListChannelVideos(selectedItem.Id, MainPageViewModel.MaxResults))
+                    {
+                        MainPageViewModel.YouTubeItems.Add(vid);
+                    }
+                    rootFrame.Navigate(typeof(MainPage));
+
+
+                }
+                else if (selectedItemType == "Playlist")
+                {
+                    MainPageViewModel.YouTubeItems.Clear();
+                    // List Playlist Videos and navigate to main
+                    foreach (var vid in await MainPageViewModel.YouTubeService.ListPlaylistVideos(selectedItem.Id, MainPageViewModel.MaxResults))
+                    {
+                        MainPageViewModel.YouTubeItems.Add(vid);
+                    }
+                    rootFrame.Navigate(typeof(MainPage));
+
+                }
+                rootFrame.Navigate(typeof(VideoPage), selectedItem);
             }
 
 

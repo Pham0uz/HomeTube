@@ -33,9 +33,9 @@
     </Command>
 
     <Command Name="selectedItem">
-      <Example>Play video 1</Example>
-      <ListenFor RequireAppName="BeforeOrAfterPhrase">[Please] Play [video] [number] {selected} [video] [please]</ListenFor>
-      <Feedback>Playing video number {selected}</Feedback>
+      <Example>Play video number 1</Example>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">[Please] Play|Select [video] [channel] [playlist] {selected} [video|channel|playlist] [please]</ListenFor>
+      <Feedback>Item at position {selected} selected...</Feedback>
       <Navigate Target="MainPage.xaml"/>
     </Command>
 
