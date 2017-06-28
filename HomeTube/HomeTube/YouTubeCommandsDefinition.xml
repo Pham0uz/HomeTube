@@ -21,21 +21,21 @@
     
     <Command Name="pauseVideo">
       <Example>Pause video</Example>
-      <ListenFor RequireAppName="BeforeOrAfterPhrase">Pause [the] [video]</ListenFor>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">Pause [the] video</ListenFor>
       <Feedback>Pausing video</Feedback>
       <Navigate Target="VideoPage.xaml"/>
     </Command>
 
     <Command Name="playVideo">
       <Example>Resume video</Example>
-      <ListenFor RequireAppName="BeforeOrAfterPhrase">Resume [the] [video]</ListenFor>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">Resume [the] video</ListenFor>
       <Feedback>Resuming video</Feedback>
       <Navigate Target="VideoPage.xaml"/>
     </Command>
     
     <Command Name="stopVideo">
       <Example>Stop video</Example>
-      <ListenFor RequireAppName="BeforeOrAfterPhrase">Resume [the] [video]</ListenFor>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">Stop [the] video</ListenFor>
       <Feedback>Stopping video</Feedback>
       <Navigate Target="VideoPage.xaml"/>
     </Command>
@@ -56,14 +56,14 @@
 
     <Command Name="skip">
       <Example>Skip 5 seconds</Example>
-      <ListenFor RequireAppName="BeforeOrAfterPhrase">Skip {number} seconds</ListenFor>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">Skip {number} [seconds]</ListenFor>
       <Feedback>Skipping {number} seconds</Feedback>
       <Navigate Target="VideoPage.xaml"/>
     </Command>
 
     <Command Name="goBack">
       <Example>Go back 5 seconds</Example>
-      <ListenFor RequireAppName="BeforeOrAfterPhrase">Go back {number} seconds</ListenFor>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">Go back {number} [seconds]</ListenFor>
       <Feedback>Going back {number} seconds</Feedback>
       <Navigate Target="VideoPage.xaml"/>
     </Command>
