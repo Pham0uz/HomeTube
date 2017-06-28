@@ -12,19 +12,20 @@ namespace HomeTube.Services
         YouTubeService Auth();
         */
 
-        //Get Channel Videos
-        Task<List<YoutubeVideo>> GetChannelVideos(string channelId, int maxResults);
 
         //Get Channel Videos With Pagination
-        Task<List<YoutubeVideo>> GetChannelVideosWithPagination(string channelId, int maxResults);
-
-        //Get Playlist Videos
-        Task<List<YoutubeVideo>> GetPlaylistVideos(string playlistId, int maxResults);
+        //Task<List<YoutubeVideo>> GetChannelVideosWithPagination(string channelId, int maxResults);
 
         //Get Cannel Id
         Task<string> GetChannelId(string userName);
 
         //Get List YouTube Items
         Task<List<YoutubeVideo>> ListItems(string searchQuery, int maxResults, string type);
+
+        //List ChannelVideos of
+        Task<List<YoutubeVideo>> ListChannelVideos(string channelId, int maxResults);
+
+        //List PlaylistVideos of
+        Task<List<YoutubeVideo>> ListPlaylistVideos(string playlistId, int maxResults);
     }
 }

@@ -52,102 +52,44 @@ namespace HomeTube.Services
         }
         */
 
-        //Get Channel Videos
-        public async Task<List<YoutubeVideo>> GetChannelVideos(string channelId, int maxResults)
-        {
-            var channelItemsListRequest = youtubeService.Search.List("snippet");
-            channelItemsListRequest.ChannelId = channelId;
-            channelItemsListRequest.Type = "video";
-            channelItemsListRequest.Order = Google.Apis.YouTube.v3.SearchResource.ListRequest.OrderEnum.Date;
-            channelItemsListRequest.MaxResults = maxResults;
-            channelItemsListRequest.PageToken = "";
+        ////Get Channel Videos With Pagination
+        //public async Task<List<YoutubeVideo>> GetChannelVideosWithPagination(string channelId, int maxResults)
+        //{
+        //    var channelItemsListRequest = youtubeService.Search.List("snippet");
+        //    channelItemsListRequest.ChannelId = channelId;
+        //    channelItemsListRequest.Type = "video";
+        //    channelItemsListRequest.Order = Google.Apis.YouTube.v3.SearchResource.ListRequest.OrderEnum.Date;
+        //    channelItemsListRequest.MaxResults = maxResults;
+        //    channelItemsListRequest.PageToken = "";
 
-            var channelItemsListResponse = await channelItemsListRequest.ExecuteAsync();
-            List<YoutubeVideo> channelVideos = new List<YoutubeVideo>();
+        //    var channelItemsListResponse = await channelItemsListRequest.ExecuteAsync();
+        //    List<YoutubeVideo> channelVideos = new List<YoutubeVideo>();
+        //    var nextPageToken = "";
+        //    int i = 0;
+        //    while (i < 3)
+        //    {
+        //        foreach (var channelItem in channelItemsListResponse.Items)
+        //        {
+        //            channelVideos.Add(
+        //                new YoutubeVideo
+        //                {
+        //                    Id = channelItem.Id.VideoId,
+        //                    Title = channelItem.Snippet.Title,
+        //                    Description = channelItem.Snippet.Description,
+        //                    PubDate = channelItem.Snippet.PublishedAt.Value.Date.ToString("d"),
+        //                    Thumbnail = channelItem.Snippet.Thumbnails.Medium.Url,
+        //                    YoutubeLink = "https://www.youtube.com/watch?v=" + channelItem.Id.VideoId
+        //                });
+        //        }
 
-            foreach (var channelItem in channelItemsListResponse.Items)
-            {
-                channelVideos.Add(
-                    new YoutubeVideo
-                    {
-                        Id = channelItem.Id.VideoId,
-                        Title = channelItem.Snippet.Title,
-                        Description = channelItem.Snippet.Description,
-                        PubDate = channelItem.Snippet.PublishedAt.Value.Date.ToString("d"),
-                        Thumbnail = channelItem.Snippet.Thumbnails.Medium.Url,
-                        YoutubeLink = "https://www.youtube.com/watch?v=" + channelItem.Id.VideoId
-                    });
-            }
+        //        i++;
 
-            return channelVideos;
-        }
+        //        nextPageToken = channelItemsListResponse.NextPageToken;
 
-        //Get Channel Videos With Pagination
-        public async Task<List<YoutubeVideo>> GetChannelVideosWithPagination(string channelId, int maxResults)
-        {
-            var channelItemsListRequest = youtubeService.Search.List("snippet");
-            channelItemsListRequest.ChannelId = channelId;
-            channelItemsListRequest.Type = "video";
-            channelItemsListRequest.Order = Google.Apis.YouTube.v3.SearchResource.ListRequest.OrderEnum.Date;
-            channelItemsListRequest.MaxResults = maxResults;
-            channelItemsListRequest.PageToken = "";
+        //    }
 
-            var channelItemsListResponse = await channelItemsListRequest.ExecuteAsync();
-            List<YoutubeVideo> channelVideos = new List<YoutubeVideo>();
-            var nextPageToken = "";
-            int i = 0;
-            while (i < 3)
-            {
-                foreach (var channelItem in channelItemsListResponse.Items)
-                {
-                    channelVideos.Add(
-                        new YoutubeVideo
-                        {
-                            Id = channelItem.Id.VideoId,
-                            Title = channelItem.Snippet.Title,
-                            Description = channelItem.Snippet.Description,
-                            PubDate = channelItem.Snippet.PublishedAt.Value.Date.ToString("d"),
-                            Thumbnail = channelItem.Snippet.Thumbnails.Medium.Url,
-                            YoutubeLink = "https://www.youtube.com/watch?v=" + channelItem.Id.VideoId
-                        });
-                }
-
-                i++;
-
-                nextPageToken = channelItemsListResponse.NextPageToken;
-
-            }
-
-            return channelVideos;
-        }
-
-        //Get Playlist Videos
-        public async Task<List<YoutubeVideo>> GetPlaylistVideos(string playlistId, int maxResults)
-        {
-            var playlistItemsListRequest = youtubeService.PlaylistItems.List("snippet");
-            playlistItemsListRequest.PlaylistId = playlistId;
-            playlistItemsListRequest.MaxResults = maxResults;
-            playlistItemsListRequest.PageToken = "";
-
-            var playlistItemsListResponse = await playlistItemsListRequest.ExecuteAsync();
-            List<YoutubeVideo> playlistVideos = new List<YoutubeVideo>();
-
-            foreach (var playlistItem in playlistItemsListResponse.Items)
-            {
-                playlistVideos.Add(
-                    new YoutubeVideo
-                    {
-                        Id = playlistItem.Snippet.ResourceId.VideoId,
-                        Title = playlistItem.Snippet.Title,
-                        Description = playlistItem.Snippet.Description,
-                        PubDate = playlistItem.Snippet.PublishedAt.Value.Date.ToString("d"),
-                        Thumbnail = playlistItem.Snippet.Thumbnails.Medium.Url,
-                        YoutubeLink = "https://www.youtube.com/watch?v=" + playlistItem.Snippet.ResourceId.VideoId
-                    });
-            }
-
-            return playlistVideos;
-        }
+        //    return channelVideos;
+        //}
 
         //Get Cannel Id
         public async Task<string> GetChannelId(string userName)
@@ -176,27 +118,30 @@ namespace HomeTube.Services
 
             //for type
             string searchItemType = "";
+            string searchItemId = "";
 
             foreach (var searchItem in searchItemsListResponse.Items)
             {
                 if (searchItem.Id.Kind == "youtube#video")
                 {
                     searchItemType = "Video";
+                    searchItemId = searchItem.Id.VideoId;
                 }
                 else if (searchItem.Id.Kind == "youtube#channel")
                 {
                     searchItemType = "Channel";
+                    searchItemId = searchItem.Id.ChannelId;
                 }
                 else
                 {
                     searchItemType = "Playlist";
+                    searchItemId = searchItem.Id.PlaylistId;
                 }
-
 
                 searchItems.Add(
                     new YoutubeVideo
                     {
-                        Id = searchItem.Id.VideoId,
+                        Id = searchItemId,
                         Title = searchItem.Snippet.Title,
                         Description = searchItem.Snippet.Description,
                         PubDate = searchItem.Snippet.PublishedAt.Value.Date.ToString("d"),
@@ -206,6 +151,62 @@ namespace HomeTube.Services
                     });
             }
             return searchItems;
+        }
+
+        public async Task<List<YoutubeVideo>> ListChannelVideos(string channelId, int maxResults)
+        {
+            var channelItemsListRequest = youtubeService.Search.List("snippet");
+            channelItemsListRequest.ChannelId = channelId;
+            channelItemsListRequest.Type = "video";
+            channelItemsListRequest.Order = Google.Apis.YouTube.v3.SearchResource.ListRequest.OrderEnum.Date;
+            channelItemsListRequest.MaxResults = maxResults;
+            channelItemsListRequest.PageToken = "";
+
+            var channelItemsListResponse = await channelItemsListRequest.ExecuteAsync();
+            List<YoutubeVideo> channelVideos = new List<YoutubeVideo>();
+
+            foreach (var channelItem in channelItemsListResponse.Items)
+            {
+                channelVideos.Add(
+                    new YoutubeVideo
+                    {
+                        Id = channelItem.Id.VideoId,
+                        Title = channelItem.Snippet.Title,
+                        Description = channelItem.Snippet.Description,
+                        PubDate = channelItem.Snippet.PublishedAt.Value.Date.ToString("d"),
+                        Thumbnail = channelItem.Snippet.Thumbnails.Medium.Url,
+                        YoutubeLink = "https://www.youtube.com/watch?v=" + channelItem.Id.VideoId
+                    });
+            }
+
+            return channelVideos;
+        }
+
+        public async Task<List<YoutubeVideo>> ListPlaylistVideos(string playlistId, int maxResults)
+        {
+            var playlistItemsListRequest = youtubeService.PlaylistItems.List("snippet");
+            playlistItemsListRequest.PlaylistId = playlistId;
+            playlistItemsListRequest.MaxResults = maxResults;
+            playlistItemsListRequest.PageToken = "";
+
+            var playlistItemsListResponse = await playlistItemsListRequest.ExecuteAsync();
+            List<YoutubeVideo> playlistVideos = new List<YoutubeVideo>();
+
+            foreach (var playlistItem in playlistItemsListResponse.Items)
+            {
+                playlistVideos.Add(
+                    new YoutubeVideo
+                    {
+                        Id = playlistItem.Snippet.ResourceId.VideoId,
+                        Title = playlistItem.Snippet.Title,
+                        Description = playlistItem.Snippet.Description,
+                        PubDate = playlistItem.Snippet.PublishedAt.Value.Date.ToString("d"),
+                        Thumbnail = playlistItem.Snippet.Thumbnails.Medium.Url,
+                        YoutubeLink = "https://www.youtube.com/watch?v=" + playlistItem.Snippet.ResourceId.VideoId
+                    });
+            }
+
+            return playlistVideos;
         }
     }
 }

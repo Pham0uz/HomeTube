@@ -9,27 +9,6 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <MediaElement x:Name="player" Width="Auto" Height="Auto" Stretch="Fill" MediaEnded="Element_MediaEnded"/>
-        <!--MediaOpened="Element_MediaOpened" MediaEnded="Element_MediaEnded"-->
-
-        <!--<StackPanel HorizontalAlignment="Center" Width="450" Orientation="Horizontal">
-
-             Play button. 
-            <Image Source="images\UI_play.gif" MouseEventHandler="OnMouseDownPlayMedia" Margin="5" />
-
-             Pause button. 
-            <Image Source="images\UI_pause.gif" MouseDown="OnMouseDownPauseMedia" Margin="5" />
-
-             Stop button. 
-            <Image Source="images\UI_stop.gif" MouseDown="OnMouseDownStopMedia" Margin="5" />
-
-             Volume slider. This slider allows a Volume range between 0 and 1. 
-            <TextBlock Foreground="White" VerticalAlignment="Center" Margin="5"  >Volume</TextBlock>
-            <Slider Name="volumeSlider" VerticalAlignment="Center" ValueChanged="ChangeMediaVolume" Minimum="0" Maximum="1" Value="0.5" Width="70"/>
-
-             Volume slider. This slider allows you to change the speed of the media playback. 
-            <TextBlock Foreground="White" Margin="5"  VerticalAlignment="Center">Speed</TextBlock>
-            <Slider Name="speedRatioSlider" VerticalAlignment="Center" ValueChanged="ChangeMediaSpeedRatio" Value="1" Width="70" />
-        </StackPanel>-->
         <ProgressRing x:Name="progress" IsActive="True"/>
     </Grid>
 </Page>
