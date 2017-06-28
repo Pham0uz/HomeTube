@@ -181,15 +181,15 @@ namespace HomeTube.Services
             {
                 if (searchItem.Id.Kind == "youtube#video")
                 {
-                    searchItemType = "video";
+                    searchItemType = "Video";
                 }
                 else if (searchItem.Id.Kind == "youtube#channel")
                 {
-                    searchItemType = "channel";
+                    searchItemType = "Channel";
                 }
                 else
                 {
-                    searchItemType = "playlist";
+                    searchItemType = "Playlist";
                 }
 
 

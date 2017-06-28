@@ -5,7 +5,7 @@
   <Properties>
     <DisplayName>Hometube</DisplayName>
     <PublisherDisplayName>Firas</PublisherDisplayName>
-    <Logo>Assets\StoreLogo.png</Logo>
+    <Logo>Assets\1Square88x88.png</Logo>
   </Properties>
   <Dependencies>
     <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
@@ -15,15 +15,16 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="HomeTube.App">
-      <uap:VisualElements DisplayName="HomeTube" Square150x150Logo="Assets\Square150x150.png" Square44x44Logo="Assets\Square44x44.png" Description="HomeTube" BackgroundColor="#c8312b">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150.png" Square310x310Logo="Assets\Square310x310.png" Square71x71Logo="Assets/Square71x71.png">
+      <uap:VisualElements DisplayName="HomeTube" Square150x150Logo="Assets\1Square300x300.png" Square44x44Logo="Assets\1Square88x88.png" Description="HomeTube" BackgroundColor="#000000">
+        <uap:LockScreen Notification="badgeAndTileText" BadgeLogo="Assets\1Square50x50.png" />
+        <uap:DefaultTile Wide310x150Logo="Assets\1Wide620x300.png" Square310x310Logo="Assets\1Square620x620.png" Square71x71Logo="Assets/1Square14x142.png" ShortName="HomeTube">
           <uap:ShowNameOnTiles>
             <uap:ShowOn Tile="square150x150Logo" />
             <uap:ShowOn Tile="wide310x150Logo" />
             <uap:ShowOn Tile="square310x310Logo" />
           </uap:ShowNameOnTiles>
         </uap:DefaultTile>
-        <uap:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="#c8312b" />
+        <uap:SplashScreen Image="Assets\1SplashScreen.png" BackgroundColor="#000000" />
       </uap:VisualElements>
     </Application>
   </Applications>

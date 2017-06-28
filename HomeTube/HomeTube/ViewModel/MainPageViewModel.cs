@@ -189,7 +189,7 @@ namespace HomeTube.ViewModel
 
             m_maxResults = 20;
 
-            m_header = "Search";
+            m_header = "Home";
 
             //this.m_searchCommands = new RelayCommand(async () => {
             //    await LoadDataAsync();

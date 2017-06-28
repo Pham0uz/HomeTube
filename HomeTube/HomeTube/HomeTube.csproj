@@ -120,14 +120,28 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\1SplashScreen.scale-200.png" />
+    <Content Include="Assets\1Square14x142.scale-200.png" />
+    <Content Include="Assets\1Square300x300.scale-200.png" />
+    <Content Include="Assets\1Square50x50.scale-200.png" />
+    <Content Include="Assets\1Square620x620.png" />
+    <Content Include="Assets\1Square88x88.scale-200.png" />
+    <Content Include="Assets\1Square88x88.targetsize-24.png" />
+    <Content Include="Assets\1Wide620x300.scale-200.png" />
     <Content Include="Assets\festisite_youtube.png" />
     <Content Include="Assets\SplashScreen.png" />
     <Content Include="Assets\Square150x150.png" />
+    <Content Include="Assets\Square150x150.scale-100.png" />
+    <Content Include="Assets\Square310x310.scale-100.png" />
+    <Content Include="Assets\Square310x310.scale-200.png" />
     <Content Include="Assets\Square44x44.png" />
     <Content Include="Assets\Square310x310.png" />
+    <Content Include="Assets\Square44x44.scale-100.png" />
+    <Content Include="Assets\Square44x44.scale-200.png" />
     <Content Include="Assets\Square71x71.png" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150.png" />
+    <Content Include="Assets\Wide310x150.scale-100.png" />
     <Content Include="YouTubeCommandsDefinition.xml">
       <SubType>Designer</SubType>
     </Content>

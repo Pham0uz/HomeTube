@@ -5,7 +5,8 @@
     xmlns:local="using:HomeTube.View"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    >
 
     <Page.Resources>
         <DataTemplate x:Key="VideoDataTemplate">
@@ -22,28 +23,32 @@
         </DataTemplate>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+    <Grid x:Name="LayoutRoot" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
+                <GradientStop Color="Black" Offset="0"/>
+                <GradientStop Color="White" Offset="1" />
+            </LinearGradientBrush>
+        </Grid.Background>
         <!-- Page title -->
-        <Pivot Margin="0" Title="HomeTube" ScrollViewer.VerticalScrollBarVisibility="Disabled">
-            <PivotItem Header="{Binding Header}" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+        <Pivot Margin="0" Title="HomeTube" ScrollViewer.VerticalScrollBarVisibility="Disabled" Foreground="White">
+            <PivotItem  Header="{Binding YouTubeItems[0].Type].Type, Mode=TwoWay}" ScrollViewer.VerticalScrollBarVisibility="Disabled" Foreground="White">
                 <ScrollViewer>
-                    <StackPanel ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                        <!-- Videos-->
-                        <AutoSuggestBox x:Name="txtAutoSuggestBox" Text="{Binding SearchQuery, Mode=TwoWay}" TabIndex="1" TextChanged="AutoSuggestBox_TextChanged" QuerySubmitted="AutoSuggestBox_QuerySubmitted" SuggestionChosen="AutoSuggestBox_SuggestionChosen" QueryIcon="Find" PlaceholderText="Search" VerticalAlignment="Top" HorizontalAlignment="Left" Width="300"/>
-                        <!--<TextBox x:Name="txtSearchBox" Text="{Binding SearchQuery, Mode=TwoWay}" PlaceholderText="Search" VerticalAlignment="Top" HorizontalAlignment="Left" Width="300" Grid.Column="0" KeyDown="txtSearchBox_KeyDown"/>-->
+                    <StackPanel ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        <AutoSuggestBox x:Name="txtAutoSuggestBox" Text="{Binding SearchQuery, Mode=TwoWay}" TabIndex="1" TextChanged="AutoSuggestBox_TextChanged" QuerySubmitted="AutoSuggestBox_QuerySubmitted" SuggestionChosen="AutoSuggestBox_SuggestionChosen" QueryIcon="Find" PlaceholderText="Search" VerticalAlignment="Top" HorizontalAlignment="Left" MinWidth="600" Margin="0,5,5,5"/>
                         <GridView x:Name="SearchItems" ItemClick="Videos_ItemClick" SelectionMode="None" IsItemClickEnabled="True" Grid.Row="1" Grid.Column="0" ItemTemplate="{StaticResource VideoDataTemplate}" ItemsSource="{Binding YouTubeItems}"  ScrollViewer.HorizontalScrollBarVisibility="Auto">
                             <GridView.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <WrapGrid MaximumRowsOrColumns="3" Orientation="Horizontal" />
+                                    <WrapGrid MaximumRowsOrColumns="1" Orientation="Horizontal"/>
                                 </ItemsPanelTemplate>
                             </GridView.ItemsPanel>
                         </GridView>
-                        <ProgressRing x:Name="SearchProgress" IsActive="True" Grid.Row="1" Grid.Column="0" Width="100" Height="100"/>
+                        <ProgressRing x:Name="SearchProgress" IsActive="True" Grid.Row="1" Grid.Column="0" Width="100" Height="100" Visibility="Collapsed"/>
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>
-            
-            <!--<PivotItem Header="Channel Videos" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+
+                  <!--<PivotItem Header="Channel Videos" ScrollViewer.VerticalScrollBarVisibility="Disabled">
                 <ScrollViewer>
                     <StackPanel ScrollViewer.VerticalScrollBarVisibility="Disabled">
                          Channel Videos

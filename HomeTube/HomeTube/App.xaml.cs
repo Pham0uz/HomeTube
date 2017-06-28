@@ -46,10 +46,10 @@ namespace HomeTube
         {
 
 #if DEBUG
-            if (System.Diagnostics.Debugger.IsAttached)
-            {
-                this.DebugSettings.EnableFrameRateCounter = true;
-            }
+            //if (System.Diagnostics.Debugger.IsAttached)
+            //{
+            //    this.DebugSettings.EnableFrameRateCounter = true;
+            //}
 #endif
             EnsureInstancedMainVM();
 
@@ -160,6 +160,8 @@ namespace HomeTube
 
                         MainPageViewModel.YouTubeItems.Clear();
 
+                        MainPageViewModel.Header = "Videos";
+
                         foreach (var ytItems in await MainPageViewModel.YouTubeService.ListItems(searchQuery, MainPageViewModel.MaxResults, "video"))
                         {
                             MainPageViewModel.YouTubeItems.Add(ytItems);
@@ -175,6 +177,9 @@ namespace HomeTube
 
                         MainPageViewModel.YouTubeItems.Clear();
 
+                        MainPageViewModel.Header = "Channels";
+
+
                         foreach (var ytItems in await MainPageViewModel.YouTubeService.ListItems(searchQuery, MainPageViewModel.MaxResults, "channel"))
                         {
                             MainPageViewModel.YouTubeItems.Add(ytItems);
@@ -189,6 +194,8 @@ namespace HomeTube
                         MainPageViewModel.SearchQuery = searchQuery;
 
                         MainPageViewModel.YouTubeItems.Clear();
+
+                        MainPageViewModel.Header = "Playlists";
 
                         foreach (var ytItems in await MainPageViewModel.YouTubeService.ListItems(searchQuery, MainPageViewModel.MaxResults, "playlist"))
                         {
