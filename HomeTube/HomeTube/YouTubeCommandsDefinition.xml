@@ -3,10 +3,10 @@
   <CommandSet xml:lang="en-us" Name="HomeTubeCommandSet_en-us">
     <AppName> Home Tube</AppName>
     <!--<CommandPrefix> Home Tube </CommandPrefix>-->
-    <Example>Show me Justin Bieber Sorry</Example>
+    <Example>Show me Justin Bieber</Example>
     
     <Command Name="listItems">      
-      <Example>Show me Justin Bieber sorry</Example>
+      <Example>Show me Justin Bieber</Example>
       <ListenFor RequireAppName="BeforeOrAfterPhrase">Show [me] {searchQuery}</ListenFor>
       <Feedback>searching for {searchQuery}</Feedback>
       <Navigate Target="MainPage.xaml"/>
