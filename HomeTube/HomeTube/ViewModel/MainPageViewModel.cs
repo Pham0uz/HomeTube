@@ -15,6 +15,7 @@ namespace HomeTube.ViewModel
         private ObservableCollection<YoutubeVideo> m_youtubeItems;
         private ObservableCollection<YoutubeVideo> m_channelVideos;
         private ObservableCollection<YoutubeVideo> m_playlistVideos;
+        private int m_maxResults;
         private ICommand m_searchCommands;
 
         private string m_searchQuery;
@@ -22,6 +23,7 @@ namespace HomeTube.ViewModel
         private bool isLoading;
 
         private MediaElement m_mediaElement;
+        private int m_currentElementInList;
 
         public ObservableCollection<YoutubeVideo> YouTubeItems
         {
@@ -101,6 +103,32 @@ namespace HomeTube.ViewModel
             }
         }
 
+        public int CurrentElementInList
+        {
+            get
+            {
+                return m_currentElementInList;
+            }
+            set
+            {
+                m_currentElementInList = value;
+                NotifyPropertyChanged(nameof(SearchQuery));
+            }
+        }
+
+        public int MaxResults
+        {
+            get
+            {
+                return m_maxResults;
+            }
+            set
+            {
+                m_maxResults = value;
+                NotifyPropertyChanged(nameof(SearchQuery));
+            }
+        }
+
         public bool IsLoading
         {
             get
@@ -143,6 +171,8 @@ namespace HomeTube.ViewModel
             YouTubeItems = new ObservableCollection<YoutubeVideo>();
             ChannelVideos = new ObservableCollection<YoutubeVideo>();
             PlaylistVideos = new ObservableCollection<YoutubeVideo>();
+
+            m_maxResults = 20;
 
             //this.m_searchCommands = new RelayCommand(async () => {
             //    await LoadDataAsync();

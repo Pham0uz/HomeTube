@@ -8,7 +8,7 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <MediaElement x:Name="player" Width="Auto" Height="Auto" Stretch="Fill"/>
+        <MediaElement x:Name="player" Width="Auto" Height="Auto" Stretch="Fill" MediaEnded="Element_MediaEnded"/>
         <!--MediaOpened="Element_MediaOpened" MediaEnded="Element_MediaEnded"-->
 
         <!--<StackPanel HorizontalAlignment="Center" Width="450" Orientation="Horizontal">

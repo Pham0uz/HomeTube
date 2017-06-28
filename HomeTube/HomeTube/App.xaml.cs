@@ -130,7 +130,9 @@ namespace HomeTube
                 // Apps should respect "text" mode by providing feedback in silent form.
                 string commandMode = this.SemanticInterpretation("commandMode", speechRecognitionResult);
                 var player = MainPageViewModel.MediaElement;
-                int volume = 0;
+                double volume = 0;
+                int currentIdx = 0;
+
                 switch (voiceCommandName)
                 {
                     case "listItems":
@@ -140,7 +142,9 @@ namespace HomeTube
                         // set the view model's search string
                         MainPageViewModel.SearchQuery = searchQuery;
 
-                        foreach (var ytItems in await MainPageViewModel.YouTubeService.ListItems(searchQuery, 50))
+                        MainPageViewModel.YouTubeItems.Clear();
+
+                        foreach (var ytItems in await MainPageViewModel.YouTubeService.ListItems(searchQuery, MainPageViewModel.MaxResults))
                         {
                             MainPageViewModel.YouTubeItems.Add(ytItems);
                         }
@@ -176,7 +180,7 @@ namespace HomeTube
                     case "pauseVideo":
                         player.Pause();
                         break;
-                    case "playVideo":
+                    case "resumeVideo":
                         player.Play();
                         break;
                     case "stopVideo":
@@ -184,14 +188,14 @@ namespace HomeTube
                         break;
 
                     case "volumeUp":
-                        volume = int.Parse(this.SemanticInterpretation("vNumber", speechRecognitionResult));
+                        volume = double.Parse(this.SemanticInterpretation("vNumber", speechRecognitionResult)) / 100.0;
                         player.Volume += volume;
                         if (player.Volume > 100)
                             player.Volume = 100;
                         break;
 
                     case "volumeDown":
-                        volume = int.Parse(this.SemanticInterpretation("vNumber", speechRecognitionResult));
+                        volume = double.Parse(this.SemanticInterpretation("vNumber", speechRecognitionResult)) / 100.0;
                         player.Volume -= volume;
                         if (player.Volume < 0)
                             player.Volume = 0;
@@ -218,6 +222,23 @@ namespace HomeTube
                         {
                             player.Position = zeroTimeSpan;
                         }
+                        break;
+
+                    case "mute":
+                        player.IsMuted = true;
+                        break;
+                    case "unmute":
+                        player.IsMuted = false;
+                        break;
+
+                    case "nextVideo":
+                        currentIdx = MainPageViewModel.CurrentElementInList + 1;
+                        video = MainPageViewModel.YouTubeItems.ElementAtOrDefault(currentIdx);
+                        break;
+
+                    case "prevVideo":
+                        currentIdx = MainPageViewModel.CurrentElementInList - 1;
+                        video = MainPageViewModel.YouTubeItems.ElementAtOrDefault(currentIdx);
                         break;
 
                     default:
@@ -248,7 +269,7 @@ namespace HomeTube
             {
                 rootFrame.Navigate(typeof(MainPage));
             }
-            else if (voiceCommandName == "selectedItem")
+            else if (voiceCommandName == "selectedItem" || voiceCommandName == "nextVideo" || voiceCommandName == "prevVideo")
             {
                 rootFrame.Navigate(typeof(VideoPage), video);
             }

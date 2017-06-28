@@ -36,25 +36,23 @@ namespace HomeTube.View
             {
                 if (NetworkInterface.GetIsNetworkAvailable())
                 {
-                    //The number of videos you would like to get in one request(from 1 to 50)
-                    int max_results = 50;
+                    //The number of videos you would like to get in one request(from 1 to 20) --> added to MainPageVM
+                    //int max_results = 20;
 
-                    ////Search Items
                     //SearchItems.Visibility = Visibility.Collapsed;
                     SearchProgress.Visibility = Visibility.Collapsed;
 
-                    ////Channel Videos
                     ChannelVideos.Visibility = Visibility.Collapsed;
                     ChannelProgress.Visibility = Visibility.Visible;
 
-                    //Here is the Id of the Channel
+                    //Here is the ID of the Channel
                     string YouTubeChannel = "UCenPmqht0q6HPENkS49qSzw";
                     ////If you can't get the Channel Id, use the UserName to get it via this method
                     ////UserName
-                    //string userName = "Microsoft";
-                    //string YoutubeChannel = await GetChannelId(userName);
+                    //string userName = "David Lengauer";
+                    //string YouTubeChannel = await MainVM.YouTubeService.GetChannelId(userName);
 
-                    foreach (var c in await MainVM.YouTubeService.GetChannelVideos(YouTubeChannel, max_results))
+                    foreach (var c in await MainVM.YouTubeService.GetChannelVideos(YouTubeChannel, MainVM.MaxResults))
                     {
                         MainVM.ChannelVideos.Add(c);
                     }
@@ -69,7 +67,7 @@ namespace HomeTube.View
                     //Here is the ID of the Playlist
                     string YouTubePlaylist = "PLiOKy6RSHbR9hxNtun3OzAt4PiY3ziQpJ";
 
-                    foreach (var p in await MainVM.YouTubeService.GetPlaylistVideos(YouTubePlaylist, max_results))
+                    foreach (var p in await MainVM.YouTubeService.GetPlaylistVideos(YouTubePlaylist, MainVM.MaxResults))
                     {
                         MainVM.PlaylistVideos.Add(p);
                     }
@@ -146,7 +144,7 @@ namespace HomeTube.View
 
             MainVM.YouTubeItems.Clear();
 
-            foreach (var ytItems in await MainVM.YouTubeService.ListItems(MainVM.SearchQuery, 50))
+            foreach (var ytItems in await MainVM.YouTubeService.ListItems(MainVM.SearchQuery, MainVM.MaxResults))
             {
                 MainVM.YouTubeItems.Add(ytItems);
             }
@@ -183,7 +181,7 @@ namespace HomeTube.View
         //        SearchItems.Visibility = Visibility.Collapsed;
         //        SearchProgress.Visibility = Visibility.Visible;
 
-        //        foreach (var ytItems in await MainVM.YouTubeService.ListItems(MainVM.SearchQuery, 50))
+        //        foreach (var ytItems in await MainVM.YouTubeService.ListItems(MainVM.SearchQuery, MainVM.MaxResults))
         //        {
         //            MainVM.YouTubeItems.Add(ytItems);
         //        }

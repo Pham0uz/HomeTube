@@ -4,10 +4,10 @@
     <AppName> Home Tube</AppName>
     <!--<CommandPrefix> Home Tube </CommandPrefix>-->
     <Example>Show me Justin Bieber</Example>
-    
-    <Command Name="listItems">      
+
+    <Command Name="listItems">
       <Example>Show me Justin Bieber</Example>
-      <ListenFor RequireAppName="BeforeOrAfterPhrase">Show [me] {searchQuery}</ListenFor>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">Show [me] [video|channel|playlist] {searchQuery}</ListenFor>
       <Feedback>searching for {searchQuery}</Feedback>
       <Navigate Target="MainPage.xaml"/>
     </Command>
@@ -18,7 +18,7 @@
       <Feedback>Playing video number {selected}</Feedback>
       <Navigate Target="MainPage.xaml"/>
     </Command>
-    
+
     <Command Name="pauseVideo">
       <Example>Pause video</Example>
       <ListenFor RequireAppName="BeforeOrAfterPhrase">Pause [the] video</ListenFor>
@@ -26,13 +26,13 @@
       <Navigate Target="VideoPage.xaml"/>
     </Command>
 
-    <Command Name="playVideo">
+    <Command Name="resumeVideo">
       <Example>Resume video</Example>
       <ListenFor RequireAppName="BeforeOrAfterPhrase">Resume [the] video</ListenFor>
       <Feedback>Resuming video</Feedback>
       <Navigate Target="VideoPage.xaml"/>
     </Command>
-    
+
     <Command Name="stopVideo">
       <Example>Stop video</Example>
       <ListenFor RequireAppName="BeforeOrAfterPhrase">Stop [the] video</ListenFor>
@@ -67,7 +67,35 @@
       <Feedback>Going back {number} seconds</Feedback>
       <Navigate Target="VideoPage.xaml"/>
     </Command>
-    
+
+    <Command Name="mute">
+      <Example>Mute video</Example>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">Mute video</ListenFor>
+      <Feedback>Muting video</Feedback>
+      <Navigate Target="VideoPage.xml"/>
+    </Command>
+
+    <Command Name="unmute">
+      <Example>Unmute video</Example>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">Unmute video</ListenFor>
+      <Feedback>Unmuting video</Feedback>
+      <Navigate Target="VideoPage.xml"/>
+    </Command>
+
+    <Command Name="nextVideo">
+      <Example>Next video</Example>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">Next video</ListenFor>
+      <Feedback>Skipping to next video</Feedback>
+      <Navigate Target="VideoPage.xml"/>
+    </Command>
+
+    <Command Name="prevVideo">
+      <Example>Previous video</Example>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">Previous video</ListenFor>
+      <Feedback>Going back to previous video</Feedback>
+      <Navigate Target="VideoPage.xml"/>
+    </Command>
+
     <!-- PhraseList-->
     <PhraseList Label="searchQuery">
       <Item>Justin Bieber</Item>
@@ -76,7 +104,7 @@
       <Item>Shake that</Item>
       <Item>David Lengauer</Item>
     </PhraseList>
-    
+
     <PhraseList Label="selected">
       <Item>1</Item>
       <Item>2</Item>
@@ -96,6 +124,7 @@
       <Item>20</Item>
       <Item>30</Item>
       <Item>45</Item>
+      <Item>100</Item>
     </PhraseList>
 
     <PhraseList Label="number">

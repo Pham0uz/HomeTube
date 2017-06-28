@@ -8,6 +8,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using MyToolkit.Multimedia;
 using HomeTube.Model;
+using HomeTube.ViewModel;
+using System.Linq;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -18,6 +20,7 @@ namespace HomeTube.View
     /// </summary>
     public sealed partial class VideoPage : Page
     {
+        MainPageViewModel MainVM;
         public VideoPage()
         {
             this.InitializeComponent();
@@ -33,7 +36,9 @@ namespace HomeTube.View
                 }
             };
 
-            App.MainPageViewModel.MediaElement = player;
+            MainVM = App.MainPageViewModel;
+
+            MainVM.MediaElement = player;
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -50,8 +55,10 @@ namespace HomeTube.View
                     if (video != null && !video.Id.Equals(String.Empty))
                     {
                         //Get The Video Uri and set it as a player source
-                        var url = await YouTube.GetVideoUriAsync(video.Id, YouTubeQuality.QualityHigh);
+                        var url = await YouTube.GetVideoUriAsync(video.Id, YouTubeQuality.Quality2160P);
                         player.Source = url.Uri;
+                        Debug.WriteLine(url.Uri);
+                        MainVM.CurrentElementInList = MainVM.YouTubeItems.IndexOf(video);
 
                     }
 
@@ -65,9 +72,20 @@ namespace HomeTube.View
                     this.Frame.GoBack();
                 }
             }
-            catch { }
+            catch (YouTubeUriNotFoundException yte)
+            {
+                await new MessageDialog(yte.Message).ShowAsync();
+            }
 
             base.OnNavigatedTo(e);
+        }
+
+        private void Element_MediaEnded(object sender, RoutedEventArgs e)
+        {
+            int currentIdx = MainVM.CurrentElementInList + 1;
+            var video = MainVM.YouTubeItems.ElementAtOrDefault(currentIdx);
+            if (video != null)
+                Frame.Navigate(typeof(VideoPage), video);
         }
 
         //public void JumpTo(string time)
