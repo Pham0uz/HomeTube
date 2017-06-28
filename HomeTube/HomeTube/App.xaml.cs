@@ -130,6 +130,7 @@ namespace HomeTube
                 // Apps should respect "text" mode by providing feedback in silent form.
                 string commandMode = this.SemanticInterpretation("commandMode", speechRecognitionResult);
                 var player = MainPageViewModel.MediaElement;
+                int volume = 0;
                 switch (voiceCommandName)
                 {
                     case "listItems":
@@ -178,36 +179,50 @@ namespace HomeTube
                     case "playVideo":
                         player.Play();
                         break;
-                    case "stop":
+                    case "stopVideo":
                         player.Stop();
                         break;
+
                     case "volumeUp":
-                        player.Volume = player.Volume + int.Parse(this.SemanticInterpretation("vNumber", speechRecognitionResult));
+                        volume = int.Parse(this.SemanticInterpretation("vNumber", speechRecognitionResult));
+                        player.Volume += volume;
+                        if (player.Volume > 100)
+                            player.Volume = 100;
                         break;
+
                     case "volumeDown":
-                        player.Volume = player.Volume - int.Parse(this.SemanticInterpretation("vNumber", speechRecognitionResult));
+                        volume = int.Parse(this.SemanticInterpretation("vNumber", speechRecognitionResult));
+                        player.Volume -= volume;
+                        if (player.Volume < 0)
+                            player.Volume = 0;
                         break;
+
                     case "skip":
-                        player.Position = player.Position + new TimeSpan(0, 0, int.Parse(this.SemanticInterpretation("number", speechRecognitionResult)));
+                        if (player.Position + new TimeSpan(0, 0, int.Parse(this.SemanticInterpretation("number", speechRecognitionResult))) <= player.NaturalDuration.TimeSpan)
+                        {
+                            player.Position += new TimeSpan(0, 0, int.Parse(this.SemanticInterpretation("number", speechRecognitionResult)));
+                        }
+                        else
+                        {
+                            player.Position = player.NaturalDuration.TimeSpan;
+                        }
                         break;
+
                     case "goBack":
-                        player.Position = player.Position - new TimeSpan(0, 0, int.Parse(this.SemanticInterpretation("number", speechRecognitionResult)));
+                        var zeroTimeSpan = new TimeSpan(0);
+                        if (player.Position - new TimeSpan(0, 0, int.Parse(this.SemanticInterpretation("number", speechRecognitionResult))) >= zeroTimeSpan)
+                        {
+                            player.Position -= new TimeSpan(0, 0, int.Parse(this.SemanticInterpretation("number", speechRecognitionResult)));
+                        }
+                        else
+                        {
+                            player.Position = zeroTimeSpan;
+                        }
                         break;
 
-
-
-                    //case "searchMealForeground":
-                    //    // Access the value of the {destination} phrase in the voice command
-                    //    var meal = this.SemanticInterpretation("meal", speechRecognitionResult);
-
-                    //    // set the view model's search string
-                    //    App.MainPageViewModel.DishFilter = meal;
-
-                    //    break;
                     default:
                         // If we can't determine what page to launch, go to the default entry point.
                         Debug.WriteLine("default");
-
                         break;
                 }
             }

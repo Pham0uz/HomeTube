@@ -15,55 +15,63 @@
     <Command Name="selectedItem">
       <Example>Play video 1</Example>
       <ListenFor RequireAppName="BeforeOrAfterPhrase">Play [video] [number] {selected} [video]</ListenFor>
-      <Feedback>Play video number {selected}</Feedback>
+      <Feedback>Playing video number {selected}</Feedback>
       <Navigate Target="MainPage.xaml"/>
     </Command>
     
     <Command Name="pauseVideo">
       <Example>Pause video</Example>
-      <ListenFor RequireAppName="BeforeOrAfterPhrase">Pause [the] video</ListenFor>
-      <Feedback>Pause video</Feedback>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">Pause [the] [video]</ListenFor>
+      <Feedback>Pausing video</Feedback>
       <Navigate Target="VideoPage.xaml"/>
     </Command>
 
     <Command Name="playVideo">
       <Example>Resume video</Example>
-      <ListenFor RequireAppName="BeforeOrAfterPhrase">Resume video</ListenFor>
-      <Feedback>Resume video</Feedback>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">Resume [the] [video]</ListenFor>
+      <Feedback>Resuming video</Feedback>
+      <Navigate Target="VideoPage.xaml"/>
+    </Command>
+    
+    <Command Name="stopVideo">
+      <Example>Stop video</Example>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">Resume [the] [video]</ListenFor>
+      <Feedback>Stopping video</Feedback>
       <Navigate Target="VideoPage.xaml"/>
     </Command>
 
-    <Command Name="=volumeUp">
-      <Example>Volume up 5</Example>
-      <ListenFor RequireAppName="BeforeOrAfterPhrase">Volume up {vNumber}</ListenFor>
-      <Feedback>Volume up</Feedback>
+    <Command Name="volumeUp">
+      <Example>Volume up by 5</Example>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">Volume up by {vNumber}</ListenFor>
+      <Feedback>Turning volume up by {vNumber}</Feedback>
       <Navigate Target="VideoPage.xaml"/>
     </Command>
 
-    <Command Name="=volumeDown">
-      <Example>Volume up 5</Example>
-      <ListenFor RequireAppName="BeforeOrAfterPhrase">Volume down {vNumber}</ListenFor>
-      <Feedback>Volume down</Feedback>
+    <Command Name="volumeDown">
+      <Example>Volume down by 5</Example>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">Volume down by {vNumber}</ListenFor>
+      <Feedback>Turning volume down by {vNumber}</Feedback>
       <Navigate Target="VideoPage.xaml"/>
     </Command>
 
-    <Command Name="=skip">
-      <Example>Skip 5 secends</Example>
-      <ListenFor RequireAppName="BeforeOrAfterPhrase">Skip {number} </ListenFor>
-      <Feedback>Skip</Feedback>
+    <Command Name="skip">
+      <Example>Skip 5 seconds</Example>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">Skip {number} seconds</ListenFor>
+      <Feedback>Skipping {number} seconds</Feedback>
       <Navigate Target="VideoPage.xaml"/>
     </Command>
 
     <Command Name="goBack">
-      <Example>Go 5 secends back</Example>
-      <ListenFor RequireAppName="BeforeOrAfterPhrase">Go {number} back</ListenFor>
-      <Feedback>Go back</Feedback>
+      <Example>Go back 5 seconds</Example>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">Go back {number} seconds</ListenFor>
+      <Feedback>Going back {number} seconds</Feedback>
       <Navigate Target="VideoPage.xaml"/>
     </Command>
     
     <!-- PhraseList-->
     <PhraseList Label="searchQuery">
       <Item>Justin Bieber</Item>
+      <Item>Despacito</Item>
       <Item>Selena Gomez</Item>
       <Item>Shake that</Item>
       <Item>David Lengauer</Item>

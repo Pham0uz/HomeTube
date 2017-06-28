@@ -166,7 +166,7 @@ namespace HomeTube.Services
             var searchItemsListRequest = youtubeService.Search.List("snippet");
             searchItemsListRequest.Q = searchQuery;
             searchItemsListRequest.Type = "video";
-            //searchItemsListRequest.Order = Google.Apis.YouTube.v3.SearchResource.ListRequest.OrderEnum.ViewCount;
+            //searchItemsListRequest.Order = Google.Apis.YouTube.v3.SearchResource.ListRequest.OrderEnum.Relevance;
             searchItemsListRequest.MaxResults = maxResults;
             searchItemsListRequest.PageToken = "";
 
@@ -175,7 +175,6 @@ namespace HomeTube.Services
 
             foreach (var searchItem in searchItemsListResponse.Items)
             {
-                searchItem.Snippet.
                 searchItems.Add(
                     new YoutubeVideo
                     {
@@ -183,7 +182,7 @@ namespace HomeTube.Services
                         Title = searchItem.Snippet.Title,
                         Description = searchItem.Snippet.Description,
                         PubDate = searchItem.Snippet.PublishedAt,
-                        Thumbnail = searchItem.Snippet.Thumbnails.Medium.Url,
+                        Thumbnail = searchItem.Snippet.Thumbnails.High.Url,
                         YoutubeLink = "https://www.youtube.com/watch?v=" + searchItem.Id.VideoId
                     });
             }
