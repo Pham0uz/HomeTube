@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="ba7a0d6b-dcbd-44d3-a7fc-b27cc2b26f23" Publisher="CN=Firas" Version="1.0.0.0" />
+  <Identity Name="ba7a0d6b-dcbd-44d3-a7fc-b27cc2b26f23" Publisher="CN=pham0uz" Version="1.0.0.0" />
   <mp:PhoneIdentity PhoneProductId="ba7a0d6b-dcbd-44d3-a7fc-b27cc2b26f23" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>Hometube</DisplayName>

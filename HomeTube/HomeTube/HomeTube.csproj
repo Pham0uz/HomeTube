@@ -17,7 +17,8 @@
     <EnableDotNetNativeCompatibleProfile>true</EnableDotNetNativeCompatibleProfile>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>YoutubeVideoSampleWin10_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateKeyFile>HomeTube_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateThumbprint>7BF68D87B0BF3D4F6C09FB391E1FD3BDB983C955</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
@@ -90,6 +91,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <None Include="HomeTube_TemporaryKey.pfx" />
     <None Include="project.json" />
     <None Include="youtube_client_secret.json" />
   </ItemGroup>
