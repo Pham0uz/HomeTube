@@ -33,66 +33,63 @@ namespace HomeTube.View
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            //try
-            //{
-            //    if (NetworkInterface.GetIsNetworkAvailable())
-            //    {
-            //        SearchProgress.Visibility = Visibility.Collapsed;
 
-            //        ChannelVideos.Visibility = Visibility.Collapsed;
-            //        ChannelProgress.Visibility = Visibility.Visible;
+            try
+            {
+                if (NetworkInterface.GetIsNetworkAvailable())
+                {
+                    if (!e.NavigationMode.Equals(NavigationMode.Back))
+                    {
+                        var selectedItem = e.Parameter as YoutubeVideo;
 
-            //        //Here is the ID of the Channel
-            //        string YouTubeChannel = "UCenPmqht0q6HPENkS49qSzw";
-            //        ////If you can't get the Channel Id, use the UserName to get it via this method
-            //        ////UserName
-            //        //string userName = "David Lengauer";
-            //        //string YouTubeChannel = await MainVM.YouTubeService.GetChannelId(userName);
+                        if (e.NavigationMode.Equals(NavigationMode.New))
+                        {
+                            if (selectedItem != null)
+                            {
+                                SearchProgress.Visibility = Visibility.Collapsed;
 
-            //        foreach (var c in await MainVM.YouTubeService.GetChannelVideos(YouTubeChannel, MainVM.MaxResults))
-            //        {
-            //            MainVM.ChannelVideos.Add(c);
-            //        }
+                                MainVM.YouTubeItems.Clear();
 
-            //        ChannelVideos.Visibility = Visibility.Visible;
-            //        ChannelProgress.Visibility = Visibility.Collapsed;
-
-            //        ////Playlist Videos
-            //        PlaylistVideos.Visibility = Visibility.Collapsed;
-            //        PlaylistProgress.Visibility = Visibility.Visible;
-
-            //        //Here is the ID of the Playlist
-            //        string YouTubePlaylist = "PLiOKy6RSHbR9hxNtun3OzAt4PiY3ziQpJ";
-
-            //        foreach (var p in await MainVM.YouTubeService.GetPlaylistVideos(YouTubePlaylist, MainVM.MaxResults))
-            //        {
-            //            MainVM.PlaylistVideos.Add(p);
-            //        }
-
-            //        PlaylistVideos.Visibility = Visibility.Visible;
-            //        PlaylistProgress.Visibility = Visibility.Collapsed;
-
-            //    }
-            //    else
-            //    {
-            //        MessageDialog msg = new MessageDialog("You're not connected to Internet!");
-            //        await msg.ShowAsync();
-            //    }
-            //}
-            //catch { }
+                                if (selectedItem.Type == "Channel")
+                                {
+                                    foreach (var v in await MainVM.YouTubeService.ListChannelVideos(selectedItem.Id, 50))
+                                    {
+                                        MainVM.YouTubeItems.Add(v);
+                                    }
+                                }
+                                else // selectedItem.Type == "Playlist"
+                                {
+                                    foreach (var v in await MainVM.YouTubeService.ListPlaylistVideos(selectedItem.Id, 50))
+                                    {
+                                        MainVM.YouTubeItems.Add(v);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        MessageDialog msg = new MessageDialog("You're not connected to Internet!");
+                        await msg.ShowAsync();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+#if DEBUG
+                string exMsg = $"MainPage.xaml {ex.Message}";
+                await new MessageDialog(exMsg).ShowAsync();
+#endif
+            }
         }
 
         // Auto-Suggest Box
         private ObservableCollection<String> suggestions;
 
         private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
-
         {
-
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
-
             {
-
                 //suggestions.Clear();
 
                 //suggestions.Add(sender.Text + "1");
@@ -111,9 +108,7 @@ namespace HomeTube.View
                 //suggestions.Add(sender.Text + "8");
                 //suggestions.Add(sender.Text + "9");
                 //sender.ItemsSource = suggestions;
-
             }
-
         }
 
         private async void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
@@ -140,7 +135,7 @@ namespace HomeTube.View
 
         private void AutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
-                    txtAutoSuggestBox.Text = "Choosen";
+            txtAutoSuggestBox.Text = "Choosen";
         }
 
         //After selecting a video, navigate to the VideoPage
@@ -150,19 +145,17 @@ namespace HomeTube.View
             if (video != null)
                 Frame.Navigate(typeof(VideoPage), video);
         }
+
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
             if (success())
             {
                 LoginPanel.Visibility = Visibility.Collapsed;
                 Info.Visibility = Visibility.Visible;
-                Error.Visibility = Visibility.Collapsed;
+                ErrorEMail.Visibility = Visibility.Collapsed;
+                ErrorPassword.Visibility = Visibility.Collapsed;
                 EmailTextBox.Text = "";
-                PasswordTextBox.Text = "";
-            }
-            else
-            {
-                Error.Visibility = Visibility.Visible;
+                PasswordBox.Password = "";
             }
         }
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
@@ -172,16 +165,33 @@ namespace HomeTube.View
         }
         private bool success()
         {
+            // check email and pw
+            return true;
+        }
+
+        private void EmailTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
             Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
             if (!regex.IsMatch(EmailTextBox.Text))
             {
-                return false;
+                ErrorEMail.Visibility = Visibility.Visible;
             }
-            if(PasswordTextBox.Text == "")
+            else
             {
-                return false;
+                ErrorEMail.Visibility = Visibility.Collapsed;
             }
-            return true;
+        }
+
+        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (String.IsNullOrEmpty(PasswordBox.Password))
+            {
+                ErrorPassword.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                ErrorPassword.Visibility = Visibility.Collapsed;
+            }
         }
     }
 }

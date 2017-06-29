@@ -8,6 +8,7 @@ using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.ApplicationModel.VoiceCommands;
 using Windows.Storage;
+using Windows.UI.Popups;
 
 namespace HomeTube.Services
 {
@@ -100,20 +101,25 @@ namespace HomeTube.Services
                     // messages sent to Cortana. Attempting to use ReportSuccessAsync, ReportProgressAsync, etc
                     // prior to calling this will produce undefined behavior.
                     VoiceCommand voiceCommand = await voiceServiceConnection.GetVoiceCommandAsync();
+                    var searchQuery = voiceCommand.Properties["searchQuery"][0];
 
                     // Depending on the operation (defined in AdventureWorks:AdventureWorksCommands.xml)
                     // perform the appropriate command.
                     switch (voiceCommand.CommandName)
                     {
-                        case "listItems":
-                            var item = voiceCommand.Properties["searchQuery"][0];
-                            await HandleSearch(item, null);
+                        case "searchVideo":
+                            await new MessageDialog("i'm here").ShowAsync();
+                            await HandleSearch(searchQuery);
                             break;
 
-                        case "searchMealBackground":
-                            var meal = voiceCommand.Properties["meal"][0];
-                            await HandleSearch(null, meal);
+                        case "searchChannel":
+                            await HandleSearch(searchQuery);
                             break;
+
+                        case "searchPlaylist":
+                            await HandleSearch(searchQuery);
+                            break;
+
 
                         default:
                             // As with app activation VCDs, we need to handle the possibility that
@@ -146,14 +152,9 @@ namespace HomeTube.Services
             await voiceServiceConnection.ReportProgressAsync(response);
         }
 
-        private async Task HandleSearch(string searchQuery, string meal)
+        private async Task HandleSearch(string searchQuery)
         {
             var loadingText = $"searching for {searchQuery} ...";
-
-            //if (!string.IsNullOrWhiteSpace(meal))
-            //{
-            //    loadingText = $"Suche Mittagsmenü {meal}";
-            //}
 
             await ShowProgressScreen(loadingText);
 

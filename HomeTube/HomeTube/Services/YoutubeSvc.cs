@@ -9,6 +9,7 @@ using Google.Apis.Auth.OAuth2;
 using Google.Apis.Util.Store;
 using System.IO;
 using System.Threading;
+using System.Diagnostics;
 
 namespace HomeTube.Services
 {
@@ -102,12 +103,13 @@ namespace HomeTube.Services
             return channelIdResponse.Items.FirstOrDefault().Id;
         }
 
-        //Get Channel Videos
         public async Task<List<YoutubeVideo>> ListItems(string searchQuery, int maxResults, string type)
         {
             var searchItemsListRequest = youtubeService.Search.List("snippet");
             searchItemsListRequest.Q = searchQuery;
             searchItemsListRequest.Type = type;
+            if (type.Equals("video"))
+                searchItemsListRequest.EventType = SearchResource.ListRequest.EventTypeEnum.Completed;
             // default order
             //searchItemsListRequest.Order = Google.Apis.YouTube.v3.SearchResource.ListRequest.OrderEnum.Relevance;
             searchItemsListRequest.MaxResults = maxResults;

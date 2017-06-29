@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.VoiceCommands;
 using HomeTube.Model;
 using Windows.UI.Popups;
+using Windows.UI.ViewManagement;
+using Windows.Foundation;
+using System.Net.NetworkInformation;
 
 namespace HomeTube
 {
@@ -82,6 +85,14 @@ namespace HomeTube
                     // parameter
                     rootFrame.Navigate(typeof(View.MainPage), e.Arguments);
                 }
+
+                // setting window size
+                //ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
+                //ApplicationView.PreferredLaunchViewSize = new Size(800, 600);
+                ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(800, 800));
+                ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.FullScreen;
+                ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
+
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
@@ -102,283 +113,264 @@ namespace HomeTube
 
         protected override async void OnActivated(IActivatedEventArgs args)
         {
-            base.OnActivated(args);
-
-            EnsureInstancedMainVM();
-
-            // for switching to VideoPage
-            var selectedItem = new YoutubeVideo();
-            string voiceCommandName = "";
-            string selectedItemType = "Video";  // default case
-
-            // If the app was launched via a Voice Command, this corresponds to the "show trip to <location>" command. 
-            // Protocol activation occurs when a tile is clicked within Cortana (via the background task)
-            if (args.Kind == ActivationKind.VoiceCommand)
+            try
             {
-                // The arguments can represent many different activation types. Cast it so we can get the
-                // parameters we care about out.
-                var commandArgs = args as VoiceCommandActivatedEventArgs;
-
-                Windows.Media.SpeechRecognition.SpeechRecognitionResult speechRecognitionResult = commandArgs.Result;
-
-                // Get the name of the voice command and the text spoken. See AdventureWorksCommands.xml for
-                // the <Command> tags this can be filled with.
-                voiceCommandName = speechRecognitionResult.RulePath[0];
-                string textSpoken = speechRecognitionResult.Text;
-
-                // The commandMode is either "voice" or "text", and it indictes how the voice command
-                // was entered by the user.
-                // Apps should respect "text" mode by providing feedback in silent form.
-                string commandMode = this.SemanticInterpretation("commandMode", speechRecognitionResult);
-                var player = MainPageViewModel.MediaElement;
-                double volume = 0;
-                int currentIdx = 0;
-                string searchQuery = "";
-
-                switch (voiceCommandName)
+                if (NetworkInterface.GetIsNetworkAvailable())
                 {
-                    //case "listItems":
-                    //    // Access the value of the {searchQuery} phrase in the voice command
-                    //    searchQuery = this.SemanticInterpretation("searchQuery", speechRecognitionResult);
+                    base.OnActivated(args);
 
-                    //    // set the view model's search string
-                    //    MainPageViewModel.SearchQuery = searchQuery;
+                    EnsureInstancedMainVM();
 
-                    //    MainPageViewModel.YouTubeItems.Clear();
+                    // for switching to VideoPage
+                    var selectedItem = new YoutubeVideo();
+                    string voiceCommandName = "";
+                    string selectedItemType = "Video";
 
-                    //    foreach (var ytItems in await MainPageViewModel.YouTubeService.ListItems(searchQuery, MainPageViewModel.MaxResults, "video"))
-                    //    {
-                    //        MainPageViewModel.YouTubeItems.Add(ytItems);
-                    //    }
-                    //    break;
+                    // If the app was launched via a Voice Command, this corresponds to the "show trip to <location>" command. 
+                    // Protocol activation occurs when a tile is clicked within Cortana (via the background task)
+                    if (args.Kind == ActivationKind.VoiceCommand)
+                    {
+                        // The arguments can represent many different activation types. Cast it so we can get the
+                        // parameters we care about out.
+                        var commandArgs = args as VoiceCommandActivatedEventArgs;
 
-                    case "searchVideo":
-                        // Access the value of the {searchQuery} phrase in the voice command
-                        searchQuery = this.SemanticInterpretation("searchQuery", speechRecognitionResult);
+                        Windows.Media.SpeechRecognition.SpeechRecognitionResult speechRecognitionResult = commandArgs.Result;
 
-                        // set the view model's search string
-                        MainPageViewModel.SearchQuery = searchQuery;
+                        // Get the name of the voice command and the text spoken. See AdventureWorksCommands.xml for
+                        // the <Command> tags this can be filled with.
+                        voiceCommandName = speechRecognitionResult.RulePath[0];
+                        string textSpoken = speechRecognitionResult.Text;
 
-                        MainPageViewModel.YouTubeItems.Clear();
+                        // The commandMode is either "voice" or "text", and it indictes how the voice command
+                        // was entered by the user.
+                        // Apps should respect "text" mode by providing feedback in silent form.
+                        string commandMode = this.SemanticInterpretation("commandMode", speechRecognitionResult);
+                        var player = MainPageViewModel.MediaElement;
+                        double volume = 0;
+                        int currentIdx = 0;
+                        string searchQuery = "";
 
-                        MainPageViewModel.Header = "Videos";
-
-                        foreach (var ytItems in await MainPageViewModel.YouTubeService.ListItems(searchQuery, MainPageViewModel.MaxResults, "video"))
+                        switch (voiceCommandName)
                         {
-                            MainPageViewModel.YouTubeItems.Add(ytItems);
+                            case "searchVideo":
+                                // Access the value of the {searchQuery} phrase in the voice command
+                                searchQuery = this.SemanticInterpretation("searchQuery", speechRecognitionResult);
+
+                                // set the view model's search string
+                                MainPageViewModel.SearchQuery = searchQuery;
+
+                                MainPageViewModel.YouTubeItems.Clear();
+
+                                MainPageViewModel.Header = "Videos";
+
+                                foreach (var ytItems in await MainPageViewModel.YouTubeService.ListItems(searchQuery, MainPageViewModel.MaxResults, "video"))
+                                {
+                                    MainPageViewModel.YouTubeItems.Add(ytItems);
+                                }
+                                break;
+
+                            case "searchChannel":
+                                // Access the value of the {searchQuery} phrase in the voice command
+                                searchQuery = this.SemanticInterpretation("searchQuery", speechRecognitionResult);
+
+                                // set the view model's search string
+                                MainPageViewModel.SearchQuery = searchQuery;
+
+                                MainPageViewModel.YouTubeItems.Clear();
+
+                                MainPageViewModel.Header = "Channels";
+
+                                foreach (var ytItems in await MainPageViewModel.YouTubeService.ListItems(searchQuery, MainPageViewModel.MaxResults, "channel"))
+                                {
+                                    MainPageViewModel.YouTubeItems.Add(ytItems);
+                                }
+                                break;
+
+                            case "searchPlaylist":
+                                // Access the value of the {searchQuery} phrase in the voice command
+                                searchQuery = this.SemanticInterpretation("searchQuery", speechRecognitionResult);
+
+                                // set the view model's search string
+                                MainPageViewModel.SearchQuery = searchQuery;
+
+                                MainPageViewModel.YouTubeItems.Clear();
+
+                                MainPageViewModel.Header = "Playlists";
+
+                                foreach (var ytItems in await MainPageViewModel.YouTubeService.ListItems(searchQuery, MainPageViewModel.MaxResults, "playlist"))
+                                {
+                                    MainPageViewModel.YouTubeItems.Add(ytItems);
+                                }
+                                break;
+
+                            case "selectItem":
+                                // Access the value of the {searchQuery} phrase in the voice command
+                                var selected = this.SemanticInterpretation("selected", speechRecognitionResult);
+
+                                switch (selected)
+                                {
+                                    case "first":
+                                        selected = "1";
+                                        break;
+                                    case "second":
+                                        selected = "2";
+                                        break;
+                                    case "third":
+                                        selected = "3";
+                                        break;
+                                    case "fourth":
+                                        selected = "4";
+                                        break;
+                                    case "fifth":
+                                        selected = "5";
+                                        break;
+                                }
+
+                                selectedItem = MainPageViewModel.YouTubeItems.ElementAtOrDefault(int.Parse(selected) - 1);
+
+                                // switch for searchQueryType
+                                switch (selectedItem.Type)
+                                {
+                                    //case "Video":
+                                    //    selectedItemType = "Video";
+                                    //    break;
+
+                                    case "Channel":
+                                        selectedItemType = "Channel";
+                                        break;
+
+                                    case "Playlist":
+                                        selectedItemType = "Playlist";
+                                        break;
+
+                                }
+                                break;
+
+                            case "pauseVideo":
+                                player.Pause();
+                                break;
+                            case "resumeVideo":
+                                player.Play();
+                                break;
+                            case "stopVideo":
+                                player.Stop();
+                                break;
+
+                            case "volumeUp":
+                                volume = double.Parse(this.SemanticInterpretation("vNumber", speechRecognitionResult)) / 100.0;
+                                player.Volume += volume;
+                                if (player.Volume > 100)
+                                    player.Volume = 100;
+                                break;
+
+                            case "volumeDown":
+                                volume = double.Parse(this.SemanticInterpretation("vNumber", speechRecognitionResult)) / 100.0;
+                                player.Volume -= volume;
+                                if (player.Volume < 0)
+                                    player.Volume = 0;
+                                break;
+
+                            case "skip":
+                                if (player.Position + new TimeSpan(0, 0, int.Parse(this.SemanticInterpretation("number", speechRecognitionResult))) <= player.NaturalDuration.TimeSpan)
+                                {
+                                    player.Position += new TimeSpan(0, 0, int.Parse(this.SemanticInterpretation("number", speechRecognitionResult)));
+                                }
+                                else
+                                {
+                                    player.Position = player.NaturalDuration.TimeSpan;
+                                }
+                                break;
+
+                            case "goBack":
+                                var zeroTimeSpan = new TimeSpan(0);
+                                if (player.Position - new TimeSpan(0, 0, int.Parse(this.SemanticInterpretation("number", speechRecognitionResult))) >= zeroTimeSpan)
+                                {
+                                    player.Position -= new TimeSpan(0, 0, int.Parse(this.SemanticInterpretation("number", speechRecognitionResult)));
+                                }
+                                else
+                                {
+                                    player.Position = zeroTimeSpan;
+                                }
+                                break;
+
+                            case "mute":
+                                player.IsMuted = true;
+                                break;
+                            case "unmute":
+                                player.IsMuted = false;
+                                break;
+
+                            case "nextVideo":
+                                currentIdx = MainPageViewModel.CurrentElementInList + 1;
+                                selectedItem = MainPageViewModel.YouTubeItems.ElementAtOrDefault(currentIdx);
+                                break;
+
+                            case "prevVideo":
+                                currentIdx = MainPageViewModel.CurrentElementInList - 1;
+                                selectedItem = MainPageViewModel.YouTubeItems.ElementAtOrDefault(currentIdx);
+                                break;
+
+                            case "exit":
+                                Application.Current.Exit();
+                                break;
+
+                            default:
+                                // If we can't determine what page to launch, go to the default entry point.
+                                Debug.WriteLine("default");
+                                break;
                         }
-                        break;
+                    }
 
-                    case "searchChannel":
-                        // Access the value of the {searchQuery} phrase in the voice command
-                        searchQuery = this.SemanticInterpretation("searchQuery", speechRecognitionResult);
+                    // R"peat the same basic initialization as OnLaunched() above, taking into account whether
+                    // or not the app is already active.
+                    Frame rootFrame = Window.Current.Content as Frame;
 
-                        // set the view model's search string
-                        MainPageViewModel.SearchQuery = searchQuery;
+                    // Do not repeat app initialization when the Window already has content,
+                    // just ensure that the window is active
+                    if (rootFrame == null)
+                    {
+                        // Create a Frame to act as the navigation context and navigate to the first page
+                        rootFrame = new Frame();
 
-                        MainPageViewModel.YouTubeItems.Clear();
+                        rootFrame.NavigationFailed += OnNavigationFailed;
 
-                        MainPageViewModel.Header = "Channels";
+                        // Place the frame in the current Window
+                        Window.Current.Content = rootFrame;
+                    }
 
-                        foreach (var ytItems in await MainPageViewModel.YouTubeService.ListItems(searchQuery, MainPageViewModel.MaxResults, "channel"))
+                    if (voiceCommandName == "searchVideo" || voiceCommandName == "searchChannel" || voiceCommandName == "searchPlaylist")
+                    {
+                        rootFrame.Navigate(typeof(MainPage));
+                    }
+                    else if (voiceCommandName == "selectItem" || voiceCommandName == "nextVideo" || voiceCommandName == "prevVideo")
+                    {
+                        if (selectedItemType != "Video")
                         {
-                            MainPageViewModel.YouTubeItems.Add(ytItems);
-                        }
-                        break;
-
-                    case "searchPlaylist":
-                        // Access the value of the {searchQuery} phrase in the voice command
-                        searchQuery = this.SemanticInterpretation("searchQuery", speechRecognitionResult);
-
-                        // set the view model's search string
-                        MainPageViewModel.SearchQuery = searchQuery;
-
-                        MainPageViewModel.YouTubeItems.Clear();
-
-                        MainPageViewModel.Header = "Playlists";
-
-                        foreach (var ytItems in await MainPageViewModel.YouTubeService.ListItems(searchQuery, MainPageViewModel.MaxResults, "playlist"))
-                        {
-                            MainPageViewModel.YouTubeItems.Add(ytItems);
-                        }
-                        break;
-
-                    case "selectedItem":
-                        // Access the value of the {searchQuery} phrase in the voice command
-                        var selected = this.SemanticInterpretation("selected", speechRecognitionResult);
-
-                        switch (selected)
-                        {
-                            case "first":
-                                selected = "1";
-                                break;
-                            case "second":
-                                selected = "2";
-                                break;
-                            case "third":
-                                selected = "3";
-                                break;
-                            case "fourth":
-                                selected = "4";
-                                break;
-                            case "fifth":
-                                selected = "5";
-                                break;
-                        }
-
-                        selectedItem = MainPageViewModel.YouTubeItems.ElementAtOrDefault(int.Parse(selected) - 1);
-
-                        // switch for searchQueryType
-                        switch (MainPageViewModel.YouTubeItems.ElementAtOrDefault(int.Parse(selected) - 1).Type)
-                        {
-                            case "Videos":
-                                break;
-
-                            case "Channel":
-                                selectedItemType = "Channel";
-                                break;
-
-                            case "Playlist":
-                                selectedItemType = "Playlist";
-                                break;
-
-                        }
-
-                        if (selectedItemType == "Video")
-                            selectedItem = MainPageViewModel.YouTubeItems.ElementAtOrDefault(int.Parse(selected) - 1);
-
-                        break;
-
-                    case "pauseVideo":
-                        player.Pause();
-                        break;
-                    case "resumeVideo":
-                        player.Play();
-                        break;
-                    case "stopVideo":
-                        player.Stop();
-                        break;
-
-                    case "volumeUp":
-                        volume = double.Parse(this.SemanticInterpretation("vNumber", speechRecognitionResult)) / 100.0;
-                        player.Volume += volume;
-                        if (player.Volume > 100)
-                            player.Volume = 100;
-                        break;
-
-                    case "volumeDown":
-                        volume = double.Parse(this.SemanticInterpretation("vNumber", speechRecognitionResult)) / 100.0;
-                        player.Volume -= volume;
-                        if (player.Volume < 0)
-                            player.Volume = 0;
-                        break;
-
-                    case "skip":
-                        if (player.Position + new TimeSpan(0, 0, int.Parse(this.SemanticInterpretation("number", speechRecognitionResult))) <= player.NaturalDuration.TimeSpan)
-                        {
-                            player.Position += new TimeSpan(0, 0, int.Parse(this.SemanticInterpretation("number", speechRecognitionResult)));
+                            rootFrame.Navigate(typeof(MainPage), selectedItem);
                         }
                         else
                         {
-                            player.Position = player.NaturalDuration.TimeSpan;
+                            rootFrame.Navigate(typeof(VideoPage), selectedItem);
                         }
-                        break;
-
-                    case "goBack":
-                        var zeroTimeSpan = new TimeSpan(0);
-                        if (player.Position - new TimeSpan(0, 0, int.Parse(this.SemanticInterpretation("number", speechRecognitionResult))) >= zeroTimeSpan)
-                        {
-                            player.Position -= new TimeSpan(0, 0, int.Parse(this.SemanticInterpretation("number", speechRecognitionResult)));
-                        }
-                        else
-                        {
-                            player.Position = zeroTimeSpan;
-                        }
-                        break;
-
-                    case "mute":
-                        player.IsMuted = true;
-                        break;
-                    case "unmute":
-                        player.IsMuted = false;
-                        break;
-
-                    case "nextVideo":
-                        currentIdx = MainPageViewModel.CurrentElementInList + 1;
-                        selectedItem = MainPageViewModel.YouTubeItems.ElementAtOrDefault(currentIdx);
-                        break;
-
-                    case "prevVideo":
-                        currentIdx = MainPageViewModel.CurrentElementInList - 1;
-                        selectedItem = MainPageViewModel.YouTubeItems.ElementAtOrDefault(currentIdx);
-                        break;
-
-                    case "exit":
-                        Application.Current.Exit();
-                        break;
-
-                    default:
-                        // If we can't determine what page to launch, go to the default entry point.
-                        Debug.WriteLine("default");
-                        break;
-                }
-            }
-
-            // R"peat the same basic initialization as OnLaunched() above, taking into account whether
-            // or not the app is already active.
-            Frame rootFrame = Window.Current.Content as Frame;
-
-            // Do not repeat app initialization when the Window already has content,
-            // just ensure that the window is active
-            if (rootFrame == null)
-            {
-                // Create a Frame to act as the navigation context and navigate to the first page
-                rootFrame = new Frame();
-
-                rootFrame.NavigationFailed += OnNavigationFailed;
-
-                // Place the frame in the current Window
-                Window.Current.Content = rootFrame;
-            }
-
-            if (voiceCommandName == "listItems")
-            {
-                rootFrame.Navigate(typeof(MainPage));
-            }
-            else if (voiceCommandName == "selectedItem" || voiceCommandName == "nextVideo" || voiceCommandName == "prevVideo")
-            {
-                if (selectedItemType == "Channel")
-                {
-                    MainPageViewModel.YouTubeItems.Clear();
-                    // List Channel Videos and navigate to main
-                    foreach (var vid in await MainPageViewModel.YouTubeService.ListChannelVideos(selectedItem.Id, MainPageViewModel.MaxResults))
-                    {
-                        MainPageViewModel.YouTubeItems.Add(vid);
                     }
-                    rootFrame.Navigate(typeof(MainPage));
 
 
-                }
-                else if (selectedItemType == "Playlist")
-                {
-                    MainPageViewModel.YouTubeItems.Clear();
-                    // List Playlist Videos and navigate to main
-                    foreach (var vid in await MainPageViewModel.YouTubeService.ListPlaylistVideos(selectedItem.Id, MainPageViewModel.MaxResults))
-                    {
-                        MainPageViewModel.YouTubeItems.Add(vid);
-                    }
-                    rootFrame.Navigate(typeof(MainPage));
-
+                    // Ensure the current window is active
+                    Window.Current.Activate();
                 }
                 else
                 {
-                    rootFrame.Navigate(typeof(VideoPage), selectedItem);
+                    MessageDialog msg = new MessageDialog("You're not connected to Internet!");
+                    await msg.ShowAsync();
                 }
             }
-
-
-            // Ensure the current window is active
-            Window.Current.Activate();
+            catch (Exception e)
+            {
+#if DEBUG
+                string ex = $"App.xaml {e.Message}";
+                await new MessageDialog(ex).ShowAsync();
+#endif
+            }
         }
 
         private string SemanticInterpretation(string interpretationKey, SpeechRecognitionResult speechRecognitionResult)

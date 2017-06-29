@@ -25,6 +25,9 @@ namespace HomeTube.View
         {
             this.InitializeComponent();
 
+            MainVM = App.MainPageViewModel;
+            MainVM.MediaElement = player;
+
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
             SystemNavigationManager.GetForCurrentView().BackRequested += (s, a) =>
             {
@@ -35,10 +38,6 @@ namespace HomeTube.View
                     a.Handled = true;
                 }
             };
-
-            MainVM = App.MainPageViewModel;
-
-            MainVM.MediaElement = player;
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)

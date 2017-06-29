@@ -26,13 +26,14 @@
 
     <Grid x:Name="LayoutRoot" ScrollViewer.VerticalScrollBarVisibility="Disabled">
         <Grid.Background>
-            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                <GradientStop Color="Black" Offset="0"/>
-                <GradientStop Color="White" Offset="1" />
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#FF434343" Offset="0.5" />
+                <GradientStop Color="#000000" Offset="1"/>
             </LinearGradientBrush>
         </Grid.Background>
-        <!-- Page title -->
-        <Pivot Margin="0" Title="HomeTube" ScrollViewer.VerticalScrollBarVisibility="Disabled" Foreground="White">
+
+        <!-- Header -->
+        <Pivot Margin="0" Title="HomeTube" Foreground="White">
             <PivotItem  Header="{Binding Header, Mode=TwoWay}" ScrollViewer.VerticalScrollBarVisibility="Disabled" Foreground="White">
                 <ScrollViewer>
                     <StackPanel ScrollViewer.VerticalScrollBarVisibility="Auto">
@@ -40,59 +41,33 @@
                         <GridView x:Name="SearchItems" ItemClick="Videos_ItemClick" SelectionMode="None" IsItemClickEnabled="True" Grid.Row="1" Grid.Column="0" ItemTemplate="{StaticResource VideoDataTemplate}" ItemsSource="{Binding YouTubeItems}"  ScrollViewer.HorizontalScrollBarVisibility="Auto">
                             <GridView.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <WrapGrid MaximumRowsOrColumns="1" Orientation="Horizontal"/>
+                                    <WrapGrid MaximumRowsOrColumns="2" Orientation="Horizontal"/>
                                 </ItemsPanelTemplate>
                             </GridView.ItemsPanel>
                         </GridView>
-                        <ProgressRing x:Name="SearchProgress" IsActive="True" Grid.Row="1" Grid.Column="0" Width="100" Height="100" Visibility="Collapsed"/>
+                        <ProgressRing x:Name="SearchProgress" IsActive="True" Grid.Row="1" Grid.Column="1" Width="100" Height="100" Visibility="Collapsed"/>
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>
+
             <PivotItem x:Name="LoginTab" Header="Account">
                 <Grid>
-                    <StackPanel x:Name="Info" Visibility="Collapsed">
+                    <StackPanel x:Name="Info" Visibility="Collapsed" Margin="0,115,0,-115">
                         <TextBlock Text="You are logged in. Welcome!" FontSize="36" Margin="4" TextAlignment="Center" />
                         <Button x:Name="LogoutButton" Content="Logout" Background="Black" Foreground="White" Click="LogoutButton_Click" Width="80" HorizontalAlignment="Center" Margin="0,20"/>
                     </StackPanel>
-                    <StackPanel x:Name="LoginPanel" Orientation="Vertical" Margin="0,113,0,-113">
+
+                    <StackPanel x:Name="LoginPanel" Orientation="Vertical" Margin="0,115,0,-115">
                         <TextBlock Text="Login" FontSize="36" Margin="4" TextAlignment="Center"/>
-                        <TextBlock x:Name="ErrorMessage" Text="" FontSize="20" Margin="4" Foreground="Red" TextAlignment="Center"/>
-                        <TextBlock x:Name="Error" Text="E-Mail addresse or password is incorrect! Please try again." Visibility="Collapsed" Margin="0,0,0,20" TextWrapping="Wrap" Width="300" TextAlignment="Center" VerticalAlignment="Center" FontSize="16"/>
-                        <TextBox x:Name="EmailTextBox" PlaceholderText="E-Mail" Margin="4" Width="250"/>
-                        <TextBox x:Name="PasswordTextBox" PlaceholderText="Password" Margin="4" Width="250"/>
+                        <TextBox x:Name="EmailTextBox" PlaceholderText="E-Mail" Margin="0,4,0,4" Width="250" TextChanged="EmailTextBox_TextChanged"/>
+                        <TextBlock x:Name="ErrorEMail" Foreground="DarkRed" Text="Not a valid E-Mail!" Visibility="Collapsed" Margin="0,0,0,4" TextAlignment="Center" TextWrapping="Wrap" Width="250" FontSize="16"/>
+                        <PasswordBox x:Name="PasswordBox" PlaceholderText="Password"  Margin="0,4,0,4" Width="250" PasswordChanged="PasswordBox_PasswordChanged" />
+                        <TextBlock x:Name="ErrorPassword" Foreground="DarkRed" Text="E-Mail or Password incorrect!" Visibility="Collapsed" Margin="0,0,0,4" TextAlignment="Center" TextWrapping="Wrap" Width="250" FontSize="16"/>
                         <Button x:Name="LoginButton" Content="Login" Background="Black" Foreground="White" Click="LoginButton_Click" Width="80" HorizontalAlignment="Center" Margin="0,20"/>
                     </StackPanel>
                 </Grid>
             </PivotItem>
-            <!--<PivotItem Header="Channel Videos" ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                <ScrollViewer>
-                    <StackPanel ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                         Channel Videos
-                        <GridView x:Name="ChannelVideos" ItemClick="Videos_ItemClick" SelectionMode="None" IsItemClickEnabled="True" Grid.Row="1" Grid.Column="1" ItemTemplate="{StaticResource VideoDataTemplate}" ItemsSource="{Binding ChannelVideos}" ScrollViewer.HorizontalScrollBarVisibility="Auto">
-                            <GridView.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <WrapGrid MaximumRowsOrColumns="3" Orientation="Horizontal" />
-                                </ItemsPanelTemplate>
-                            </GridView.ItemsPanel>
-                        </GridView>
-                        <ProgressRing x:Name="ChannelProgress" IsActive="True" Grid.Row="1" Grid.Column="0" Width="100" Height="100"/>
-                    </StackPanel>
-                </ScrollViewer>
-            </PivotItem>
-            
-            <PivotItem Header="Playlist Videos" ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                <StackPanel ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                     Playlist Videos
-                    <GridView x:Name="PlaylistVideos" ItemClick="Videos_ItemClick" SelectionMode="None" IsItemClickEnabled="True" Grid.Row="1" Grid.Column="2" ItemTemplate="{StaticResource VideoDataTemplate}" ItemsSource="{Binding PlaylistVideos}" ScrollViewer.HorizontalScrollBarVisibility="Auto">
-                        <GridView.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapGrid MaximumRowsOrColumns="3" Orientation="Horizontal" />
-                            </ItemsPanelTemplate>
-                        </GridView.ItemsPanel>
-                    </GridView>
-                    <ProgressRing x:Name="PlaylistProgress" IsActive="True" Grid.Row="1" Grid.Column="1" Width="100" Height="100"/>
-                </StackPanel>
-            </PivotItem>-->
+
         </Pivot>
     </Grid>
 
