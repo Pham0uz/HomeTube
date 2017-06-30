@@ -76,10 +76,10 @@ namespace HomeTube.View
             }
             catch (Exception ex)
             {
-#if DEBUG
-                string exMsg = $"MainPage.xaml {ex.Message}";
-                await new MessageDialog(exMsg).ShowAsync();
-#endif
+//#if DEBUG
+//                string exMsg = $"MainPage.xaml {ex.Message}";
+//                await new MessageDialog(exMsg).ShowAsync();
+//#endif
             }
         }
 

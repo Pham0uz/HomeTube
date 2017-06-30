@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<VoiceCommands xmlns="http://schemas.microsoft.com/voicecommands/1.2">
+  <CommandSet xml:lang="en-us" Name="HomeTubeCommandSet_en-us">
+    <AppName> Home Tube</AppName>
+    <Example>Show me Justin Bieber</Example>
+
+    <!-- Commands -->
+
+    <Command Name="searchVideo">
+      <Example>Show me video Way Down</Example>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">[Please] Show [me] video [of|for] {searchQuery} [please]</ListenFor>
+      <Feedback>searching for video {searchQuery} ...</Feedback>
+      <Navigate Target="MainPage.xaml"/>
+    </Command>
+
+    <Command Name="searchChannel">
+      <Example>Show me channel Selena Gomez</Example>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">[Please] Show [me] channel [of|for] {searchQuery} [please]</ListenFor>
+      <Feedback>searching for channel {searchQuery} ...</Feedback>
+      <Navigate Target="MainPage.xaml"/>
+    </Command>
+
+    <Command Name="searchPlaylist">
+      <Example>Show me playlist for Kpop 2017</Example>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">[Please] Show [me] playlist [of|for] {searchQuery} [please]</ListenFor>
+      <Feedback>searching for playlist {searchQuery} ...</Feedback>
+      <Navigate Target="MainPage.xaml"/>
+    </Command>
+
+    <Command Name="selectedItem">
+      <Example>Play video number 1</Example>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">[Please] Play|Select [video|channel|playlist] [number] {selected} [please]</ListenFor>
+      <Feedback>Selected {selected} ...</Feedback>
+      <Navigate Target="MainPage.xaml"/>
+    </Command>
+
+    <Command Name="pauseVideo">
+      <Example>Pause video</Example>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">[Please] Pause [the] video [please]</ListenFor>
+      <Feedback>Pausing video</Feedback>
+      <Navigate Target="VideoPage.xaml"/>
+    </Command>
+
+    <Command Name="resumeVideo">
+      <Example>Resume video</Example>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">[Please] Resume [the] video [please]</ListenFor>
+      <Feedback>Resuming video</Feedback>
+      <Navigate Target="VideoPage.xaml"/>
+    </Command>
+
+    <Command Name="stopVideo">
+      <Example>Stop video</Example>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">[Please] Stop [the] video [please]</ListenFor>
+      <Feedback>Stopping video</Feedback>
+      <Navigate Target="VideoPage.xaml"/>
+    </Command>
+
+    <Command Name="volumeUp">
+      <Example>Volume up by 5</Example>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">[Please] [turn] Volume up by {vNumber} [please]</ListenFor>
+      <Feedback>Turning volume up by {vNumber}</Feedback>
+      <Navigate Target="VideoPage.xaml"/>
+    </Command>
+
+    <Command Name="volumeDown">
+      <Example>Volume down by 5</Example>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">[Please] [turn] Volume down by {vNumber} [please]</ListenFor>
+      <Feedback>Turning volume down by {vNumber}</Feedback>
+      <Navigate Target="VideoPage.xaml"/>
+    </Command>
+
+    <Command Name="skip">
+      <Example>Skip 5 seconds</Example>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">[Please] Skip {number} [seconds] [please]</ListenFor>
+      <Feedback>Skipping {number} seconds</Feedback>
+      <Navigate Target="VideoPage.xaml"/>
+    </Command>
+
+    <Command Name="goBack">
+      <Example>Go back 5 seconds</Example>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">[Please] Go back {number} [seconds] [please]</ListenFor>
+      <Feedback>Going back {number} seconds</Feedback>
+      <Navigate Target="VideoPage.xaml"/>
+    </Command>
+
+    <Command Name="mute">
+      <Example>Mute video</Example>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">[Please] Mute video [please]</ListenFor>
+      <Feedback>Muting video</Feedback>
+      <Navigate Target="VideoPage.xml"/>
+    </Command>
+
+    <Command Name="unmute">
+      <Example>Unmute video</Example>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">[Please] Unmute video [please]</ListenFor>
+      <Feedback>Unmuting video</Feedback>
+      <Navigate Target="VideoPage.xml"/>
+    </Command>
+
+    <Command Name="nextVideo">
+      <Example>Next video</Example>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">[Please] [go|play] [to] Next video [please]</ListenFor>
+      <Feedback>Skipping to next video</Feedback>
+      <Navigate Target="VideoPage.xml"/>
+    </Command>
+
+    <Command Name="prevVideo">
+      <Example>Previous video</Example>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">[Please] [go|play] [to] Previous video [please]</ListenFor>
+      <Feedback>Going back to previous video</Feedback>
+      <Navigate Target="VideoPage.xml"/>
+    </Command>
+
+    <Command Name="exit">
+      <Example>Exit Application</Example>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">[Please] Exit application [please]</ListenFor>
+      <Feedback>Closing Application ...</Feedback>
+      <Navigate/>
+    </Command>
+
+    <!-- PhraseList-->
+    <PhraseList Label="selected">
+      <Item>1</Item>
+      <Item>2</Item>
+      <Item>3</Item>
+      <Item>4</Item>
+      <Item>5</Item>
+      <Item>first</Item>
+      <Item>second</Item>
+      <Item>third</Item>
+      <Item>fourth</Item>
+      <Item>fifth</Item>
+    </PhraseList>
+
+    <PhraseList Label="vNumber">
+      <Item>5</Item>
+      <Item>10</Item>
+      <Item>20</Item>
+      <Item>30</Item>
+      <Item>45</Item>
+      <Item>100</Item>
+    </PhraseList>
+
+    <PhraseList Label="number">
+      <Item>5</Item>
+      <Item>10</Item>
+      <Item>20</Item>
+      <Item>30</Item>
+      <Item>45</Item>
+      <Item>60</Item>
+      <Item>90</Item>
+      <Item>120</Item>
+      <Item>180</Item>
+    </PhraseList>
+
+    <!--PhraseTopic-->
+    <PhraseTopic Label="searchQuery" Scenario="Search"/>
+
+  </CommandSet>
+</VoiceCommands>

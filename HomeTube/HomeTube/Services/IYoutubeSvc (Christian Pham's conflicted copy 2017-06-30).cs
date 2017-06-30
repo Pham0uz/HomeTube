@@ -12,7 +12,6 @@ namespace HomeTube.Services
         YouTubeService Auth();
         */
 
-
         //Get Channel Videos With Pagination
         //Task<List<YoutubeVideo>> GetChannelVideosWithPagination(string channelId, int maxResults);
 

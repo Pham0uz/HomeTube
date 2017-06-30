@@ -366,8 +366,8 @@ namespace HomeTube
             }
             catch (Exception e)
             {
-                string ex = $"App.xaml {e.Message}";
-                await new MessageDialog(ex).ShowAsync();
+                //string ex = $"App.xaml {e.Message}";
+                //await new MessageDialog(ex).ShowAsync();
             }
         }
 
