@@ -366,10 +366,8 @@ namespace HomeTube
             }
             catch (Exception e)
             {
-#if DEBUG
                 string ex = $"App.xaml {e.Message}";
                 await new MessageDialog(ex).ShowAsync();
-#endif
             }
         }
 
